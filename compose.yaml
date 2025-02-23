@@ -1,0 +1,6 @@
+﻿services:
+  passsystemtd:
+    image: passsystemtd
+    build:
+      context: .
+      dockerfile: PassSystemTD/Dockerfile
