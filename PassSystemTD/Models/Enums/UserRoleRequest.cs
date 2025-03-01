@@ -3,9 +3,8 @@ using System.Text.Json.Serialization;
 namespace PassSystemTD.Models.Enums;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum UserRole
+public enum UserRoleRequest
 {
-    Admin,
     Teacher,
     Student,
     Dean

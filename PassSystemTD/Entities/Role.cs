@@ -12,6 +12,8 @@ public class Role
     public bool IsTeacher { get; set; } = false;
     public bool IsDean { get; set; } = false;
     
+    
+    
     [ForeignKey("Id")]
     public User User { get; set; }
 }

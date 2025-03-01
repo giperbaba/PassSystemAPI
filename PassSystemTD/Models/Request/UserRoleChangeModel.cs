@@ -7,5 +7,5 @@ namespace PassSystemTD.Models.Request;
 public class UserRoleChangeModel
 {
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
-    UserRole Role { get; set; }
+    UserRole UserRole { get; set; }
 }

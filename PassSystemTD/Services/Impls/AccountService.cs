@@ -32,7 +32,7 @@ public class AccountService : IAccountService
         }
         var user = await _db.Users.FirstOrDefaultAsync(user => user.Email == userLoginModel.Email);
         if (!BCrypt.Net.BCrypt.Verify(userLoginModel.Password, user.Password)) { 
-            throw new BadRequestException(ErrorMessages.PasswordNotExistsError);
+            throw new BadRequestException(ErrorMessages.PasswordInvalidError);
         }
         var token = new TokenResponse { Token = _tokenService.GenerateToken(user) };
         return token;
@@ -66,16 +66,16 @@ public class AccountService : IAccountService
             throw new InvalidTokenException(ErrorMessages.UnauthorizedError);
         }
 
-        var user = await _db.Users.FirstOrDefaultAsync(user => user.Id.ToString() == userId);
+        var user = await _db.Users.Include(r => r.Role).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
         if (user == null) throw new BadRequestException(ErrorMessages.ProfileNotExistsError);
         return user;
     }
 
     public Task<User?> GetUserById(string id)
     {
-        return _db.Users.FirstOrDefaultAsync(user => user.Id.ToString() == id);
+        return _db.Users.Include(r => r.Role).FirstOrDefaultAsync(u => u.Id.ToString() == id);
     }
-
+    
     public async Task<UserProfileModel> GetProfile(string token)
     {
         if (string.IsNullOrWhiteSpace(token))

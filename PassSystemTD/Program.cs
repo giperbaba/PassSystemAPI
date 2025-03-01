@@ -57,8 +57,9 @@ services.AddAuthentication(x =>
     };
 });
 
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+services.AddScoped<IAccountService, AccountService>();
+services.AddScoped<ITokenService, TokenService>();
+services.AddScoped<IUserService, UserService>();
 
 //builder.Services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(options =>

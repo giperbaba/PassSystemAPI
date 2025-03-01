@@ -20,6 +20,14 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         {
             await HandleExceptionAsync(context, HttpStatusCode.Unauthorized, ex.Message);
         }
+        catch (AccessDeniedException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.Forbidden, ex.Message);
+        }
+        catch (UserNotFoundException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, "An unhandled exception occurred.");

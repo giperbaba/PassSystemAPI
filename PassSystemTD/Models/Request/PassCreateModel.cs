@@ -9,16 +9,13 @@ public class PassCreateModel
 {
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     [StringLength(1000, MinimumLength = 1)]
-    public string Name { get; set; }
+    public string Reason { get; set; }
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public DateTime StartTime { get; set; }
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public DateTime EndTime { get; set; }
-    
-    [StringLength(1000, MinimumLength = 1)]
-    public string Description { get; set; }
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public IEnumerable<DocumentModel> Documents { get; set; }

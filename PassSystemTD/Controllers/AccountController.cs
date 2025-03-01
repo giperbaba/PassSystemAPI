@@ -22,8 +22,8 @@ public class AccountController : ControllerBase
     {
         var token = await _accountService.Login(userLoginModel);
         return Ok(token);
-
     }
+    
     [Authorize]
     [HttpGet("profile")]
     public async Task<IActionResult> GetProfile()
