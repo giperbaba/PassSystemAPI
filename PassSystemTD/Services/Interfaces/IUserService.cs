@@ -10,4 +10,5 @@ public interface IUserService
     public Task<UserProfileModel> GiveRole(Guid userId, UserRoleRequest? role, string userIdWhoDoIt);
     public bool IsUserAdmin(string userId);
     public bool IsUserDean(string userId);
+    public bool IsUserStudent(string userId);
 }

@@ -11,7 +11,7 @@ public class UsersController: BaseController
 {
     private readonly IUserService _userService;
 
-    public UsersController(IUserService userService):base(userService)
+    public UsersController(IUserService userService, IPassService passService):base(userService)
     {
         _userService = userService;
     }
@@ -29,7 +29,7 @@ public class UsersController: BaseController
     }
     
     [Authorize]
-    [HttpGet("users/role/{id}")]
+    [HttpPost("users/role/{id}")]
     public async Task<IActionResult> GiveRole(Guid id, UserRoleRequest? role)
     {
         await EnsureAdminOrDeanRights(GetUserData(ClaimTypes.Sid));

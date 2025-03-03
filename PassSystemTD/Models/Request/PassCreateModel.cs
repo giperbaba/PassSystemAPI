@@ -18,5 +18,5 @@ public class PassCreateModel
     public DateTime EndTime { get; set; }
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
-    public IEnumerable<DocumentModel> Documents { get; set; }
+    public IEnumerable<IFormFile> Proofs { get; set; }
 }
