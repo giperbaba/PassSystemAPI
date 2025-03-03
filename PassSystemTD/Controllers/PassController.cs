@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PassSystemTD.Models.Enums;
 using PassSystemTD.Models.Request;
@@ -5,22 +7,29 @@ using PassSystemTD.Services.Interfaces;
 
 namespace PassSystemTD.Controllers;
 
-public class PassController: ControllerBase
+[ApiController]
+public class PassController: BaseController
 {
     private readonly IPassService _passService;
+    private readonly ITokenService _tokenService;
 
-    public PassController(IPassService passService)
+    public PassController(IUserService userService, IPassService passService, ITokenService tokenService) : base(userService)
     {
         _passService = passService;
+        _tokenService = tokenService;
     }
     
+    [Authorize]
     [HttpPost("pass")]
-    public async Task<IActionResult> CreatePass(Guid userId, PassCreateModel passCreateModel)
+    public async Task<IActionResult> CreatePass([FromForm] PassCreateModel passCreateModel)
     {
-        return Ok(await _passService.CreatePass(userId, passCreateModel));
+        var authorizationHeader = Request.Headers["Authorization"].ToString();
+        var token = _tokenService.ExtractTokenFromHeader(authorizationHeader);
+        await EnsureStudentsRights(GetUserData(ClaimTypes.Sid));
+        return Ok(await _passService.CreatePass(token, passCreateModel));
     }
     
-    [HttpPut("pass/{id}/status")]
+    /*[HttpPut("pass/{id}/status")]
     public async Task<IActionResult> EditPassStatus(Guid id, PassEditStatusModel passEStatusModel)
     {
         return Ok(await _passService.EditPassStatus(id, passEStatusModel));
@@ -53,5 +62,5 @@ public class PassController: ControllerBase
         [FromQuery] int pageSize = 10)
     {
         return Ok(await _passService.GetPasses(sort, search, startDate, endDate, page, pageSize)); 
-    }
+    }*/
 }

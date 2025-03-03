@@ -25,6 +25,7 @@ public class ErrorMessages
     //Forbidden errors
     public const string AccessDeniedAdminError = "You must be admin";
     public const string AccessDeniedAdminDeanError = "You must be admin or dean";
+    public const string AccessDeniedStudentError = "You must be student";
     
     //Not found errors
     public const string NotFoundUserError = "User not found";

@@ -27,4 +27,6 @@ public class User
     public string Email { get; set; }
     public string Password { get; set; }
     public Role Role { get; set; }
+    
+    public ICollection<Pass> Passes { get; set; } = new List<Pass>();
 }

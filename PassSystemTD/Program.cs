@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -36,7 +37,14 @@ services.AddSingleton(provider =>
         ValidateAudience = true
     };
 });
-
+builder.Services.AddSingleton(provider =>
+{
+    var cloudinaryConfig = builder.Configuration.GetSection("Cloudinary");
+    return new Cloudinary(new Account(
+        cloudinaryConfig["CloudName"],
+        cloudinaryConfig["ApiKey"],
+        cloudinaryConfig["ApiSecret"]));
+});
 services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -60,6 +68,7 @@ services.AddAuthentication(x =>
 services.AddScoped<IAccountService, AccountService>();
 services.AddScoped<ITokenService, TokenService>();
 services.AddScoped<IUserService, UserService>();
+services.AddScoped<IPassService, PassService>();
 
 //builder.Services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(options =>

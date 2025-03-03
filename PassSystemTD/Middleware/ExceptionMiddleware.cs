@@ -30,7 +30,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An unhandled exception occurred.");
+            //logger.LogError(ex, ex.Message);
             await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, ex.Message);
         }
     }
