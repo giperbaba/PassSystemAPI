@@ -107,6 +107,11 @@ public class UserService : IUserService
         User user = GetUserById(userId);
         return user.Role.IsDean;
     }
+    public bool IsUserStudent(string userId)
+    {
+        User user = GetUserById(userId);
+        return user.Role.IsStudent;
+    }
     
     private User GetUserById(string id)
     {

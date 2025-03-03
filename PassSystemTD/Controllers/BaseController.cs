@@ -41,4 +41,13 @@ public class BaseController: ControllerBase
             throw new AccessDeniedException(Constants.ErrorMessages.AccessDeniedAdminDeanError);
         }
     }
+    protected async Task EnsureStudentsRights(string id)
+    {
+        var isStudent = _userService.IsUserStudent(id);
+        
+        if (!isStudent)
+        {
+            throw new AccessDeniedException(Constants.ErrorMessages.AccessDeniedStudentError);
+        }
+    }
 }

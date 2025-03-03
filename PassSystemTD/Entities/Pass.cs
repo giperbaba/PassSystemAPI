@@ -1,16 +1,18 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 using PassSystemTD.Constants;
 using PassSystemTD.Models.Enums;
 
-namespace PassSystemTD.Models.Response;
+namespace PassSystemTD.Entities;
 
-public class PassPreviewModel
+public class Pass
 {
-    public Guid Id { get; set; } 
+    [Key]  public Guid Id { get; set; } 
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     [StringLength(1000, MinimumLength = 1)]
-    public string userName { get; set; }
+    public string Reason { get; set; }
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public DateTime StartTime { get; set; }
@@ -20,4 +22,10 @@ public class PassPreviewModel
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public PassStatus PassStatus { get; set; }
+    
+    public Guid UserId { get; set; }
+    public User Users { get; set; }
+    
+    [Required(ErrorMessage = ErrorMessages.RequiredField)]
+    public ICollection<Proof> Proofs { get; set; } = new List<Proof>();
 }
