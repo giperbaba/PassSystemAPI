@@ -19,14 +19,9 @@ public class PassService : IPassService
     private readonly DataContext _db;
     private readonly IAccountService _accountService;
 
-    public PassService(IConfiguration configuration, DataContext db, IAccountService accountService)
+    public PassService(Cloudinary cloudinary, DataContext db, IAccountService accountService)
     {
-        var cloudinaryConfig = configuration.GetSection("Cloudinary");
-        var account = new Account(
-            cloudinaryConfig["CloudName"],
-            cloudinaryConfig["ApiKey"],
-            cloudinaryConfig["ApiSecret"]);
-        _cloudinary = new Cloudinary(account);
+        _cloudinary = cloudinary;
         _db = db;
         _accountService = accountService;
     }
