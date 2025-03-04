@@ -31,12 +31,44 @@ public class AccountService : IAccountService
             throw new BadRequestException(ErrorMessages.ProfileNotExistsError);
         }
         var user = await _db.Users.FirstOrDefaultAsync(user => user.Email == userLoginModel.Email);
+        
         if (!BCrypt.Net.BCrypt.Verify(userLoginModel.Password, user.Password)) { 
             throw new BadRequestException(ErrorMessages.PasswordInvalidError);
         }
         var token = new TokenResponse { Token = _tokenService.GenerateToken(user) };
         return token;
     }
+
+    public async Task<TokenResponse> Register(UserRegisterModel userRegisterModel)
+    {
+        if (await _db.Users.AnyAsync(u => u.Email == userRegisterModel.Email))
+        {
+            throw new ConflictException(Constants.ErrorMessages.ConflictEmailError);
+        }
+        
+        CheckIsAgeCorrect(userRegisterModel.BirthDate);
+        
+        var user = Mappers.UserMapper.MapUserFromRegisterModelToEntity(userRegisterModel);
+        
+        await _db.Users.AddAsync(user);
+        await _db.Role.AddAsync(new Role(user.Id, false, false, false, false));
+        await _db.SaveChangesAsync();
+        
+        var token = new TokenResponse { Token = _tokenService.GenerateToken(user) };
+        
+        return token;
+    }
+    
+    private void CheckIsAgeCorrect(DateTime? birthdate)
+    {
+        DateTime minimumAllowedDate = DateTime.UtcNow.AddYears(-17);
+        
+        if (birthdate > minimumAllowedDate)
+        {
+            throw new BadRequestException(ErrorMessages.InvalidBirthdateError);
+        }
+    }
+
 
     public async Task<Response> Logout(string token)
     {

@@ -24,6 +24,12 @@ public class AccountController : ControllerBase
         return Ok(token);
     }
     
+    [HttpPost("registration")]
+    public async Task<IActionResult> Regist(UserRegisterModel userRegisterModel)
+    {
+        return Ok(await _accountService.Register(userRegisterModel));
+    }
+    
     [Authorize]
     [HttpGet("profile")]
     public async Task<IActionResult> GetProfile()

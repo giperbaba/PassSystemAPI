@@ -28,6 +28,10 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         {
             await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
         }
+        catch (ConflictException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.Conflict, ex.Message);
+        }
         catch (Exception ex)
         {
             //logger.LogError(ex, ex.Message);

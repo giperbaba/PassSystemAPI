@@ -1,6 +1,8 @@
 ﻿using PassSystemTD.Entities;
 using PassSystemTD.Models.Enums;
+using PassSystemTD.Models.Request;
 using PassSystemTD.Models.Response;
+using PassSystemTD.Utils;
 
 namespace PassSystemTD.Mappers;
 
@@ -28,5 +30,18 @@ public abstract class UserMapper
        if (role.IsTeacher) { roles.Add(UserRole.Teacher); } 
        
        return roles.Count > 0 ? roles : null;
+    }
+    
+    public static User MapUserFromRegisterModelToEntity(UserRegisterModel userRequest)
+    {
+        var hashedPassword = PasswordHasher.Hash(userRequest.Password);
+
+        return new User(){
+            BirthDate = userRequest.BirthDate,
+            Email = userRequest.Email,
+            Name = userRequest.Name,
+            Gender = userRequest.Gender,
+            Password = hashedPassword,
+            };
     }
 }
