@@ -17,6 +17,9 @@ public class ErrorMessages
     public const string PasswordNotValid = "Password must include one or more numbers";
     public const string PasswordInvalidError = "Invalid password";
     
+    public const string InvalidBirthdateError = "User must be over 16 years old";
+
+    
     //Token 
     public const string UnauthorizedError = "Unauthorized";
     public const string TokenError = "Token is required";
@@ -33,4 +36,8 @@ public class ErrorMessages
     
     //Bad request errors
     public const string InvalidPageCountOrPageSizeError = "Page count and page size must be greater than 0";
+    
+    //Conflict errors
+    public const string ConflictEmailError = "Email is already registered";
+
 }

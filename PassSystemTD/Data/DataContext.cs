@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PassSystemTD.Entities;
 using PassSystemTD.Models.Enums;
+using PassSystemTD.Utils;
 using Document = System.Reflection.Metadata.Document;
 
 namespace PassSystemTD.Data;
@@ -25,18 +26,13 @@ public class DataContext : DbContext
                 Id = userId,
                 Name = $"User{i}",
                 Email = $"user{i}@example.com",
-                Password = BCrypt.Net.BCrypt.HashPassword($"string{i}"),
+                Password = PasswordHasher.Hash($"string{i}"),
                 Gender = (Gender)(i % 2 == 0 ? Gender.Male : Gender.Female)
             });
 
             roles.Add(new Role
-            {
-                Id = userId,
-                IsAdmin = i % 100 == 0,
-                IsStudent = i % 3 == 0,
-                IsTeacher = i % 5 == 0,
-                IsDean = i % 7 == 0
-            });
+            (userId, i % 100 == 0, i % 3 == 0,i % 5 == 0, i % 7 == 0
+            ));
         }
 
         modelBuilder.Entity<User>().HasData(users);
