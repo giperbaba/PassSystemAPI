@@ -7,7 +7,7 @@ namespace PassSystemTD.Mappers;
 
 public abstract class PassMapper
 {
-    public static PassPreviewModel MapEntityToPassDetailsModel(Pass pass)
+    public static PassPreviewModel MapEntityToPassPreviewModel(Pass pass)
     {
         return new PassPreviewModel()
         {
