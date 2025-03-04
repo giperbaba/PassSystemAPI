@@ -23,12 +23,20 @@ public class PassController: BaseController
     [HttpPost("pass")]
     public async Task<IActionResult> CreatePass([FromForm] PassCreateModel passCreateModel)
     {
-        var authorizationHeader = Request.Headers["Authorization"].ToString();
-        var token = _tokenService.ExtractTokenFromHeader(authorizationHeader);
         await EnsureStudentsRights(GetUserData(ClaimTypes.Sid));
-        return Ok(await _passService.CreatePass(token, passCreateModel));
+        return Ok(await _passService.CreatePass(GetUserData(ClaimTypes.Sid), passCreateModel));
     }
     
+    [HttpGet("pass/list")]
+    public async Task<IActionResult> GetPasses(PassStatus? status,
+        string? search,
+        DateTime? startDate,
+        DateTime? endDate,
+        int page = 1,
+        int pageSize = 10)
+    {
+        return Ok(await _passService.GetPasses(GetUserData(ClaimTypes.Sid), status, search, startDate, endDate, page, pageSize)); 
+    }
     /*[HttpPut("pass/{id}/status")]
     public async Task<IActionResult> EditPassStatus(Guid id, PassEditStatusModel passEStatusModel)
     {
@@ -51,16 +59,7 @@ public class PassController: BaseController
     public async Task<IActionResult> GetPassDetailedInfo(Guid id)
     {
         return Ok(await _passService.GetPassDetailedInfo(id));
-    }
-    
-    [HttpGet("pass/list")]
-    public async Task<IActionResult> GetPasses([FromQuery] SortType? sort,
-        [FromQuery] string? search,
-        [FromQuery] DateTime? startDate,
-        [FromQuery] DateTime? endDate,
-        [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 10)
-    {
-        return Ok(await _passService.GetPasses(sort, search, startDate, endDate, page, pageSize)); 
     }*/
+    
+    
 }
