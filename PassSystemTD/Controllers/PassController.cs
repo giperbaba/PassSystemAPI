@@ -26,7 +26,7 @@ public class PassController: BaseController
         await EnsureStudentsRights(GetUserData(ClaimTypes.Sid));
         return Ok(await _passService.CreatePass(GetUserData(ClaimTypes.Sid), passCreateModel));
     }
-    
+    [Authorize]
     [HttpGet("pass/list")]
     public async Task<IActionResult> GetPasses(PassStatus? status,
         string? search,
@@ -37,6 +37,14 @@ public class PassController: BaseController
     {
         return Ok(await _passService.GetPasses(GetUserData(ClaimTypes.Sid), status, search, startDate, endDate, page, pageSize)); 
     }
+    
+    [Authorize]
+    [HttpGet("pass/{id}/details")]
+    public async Task<IActionResult> GetPassDetailedInfo([FromRoute] Guid id)
+    {
+        return Ok(await _passService.GetPassDetailedInfo(id));
+    }
+    
     /*[HttpPut("pass/{id}/status")]
     public async Task<IActionResult> EditPassStatus(Guid id, PassEditStatusModel passEStatusModel)
     {
@@ -53,13 +61,9 @@ public class PassController: BaseController
     public async Task<IActionResult> DeletePass(Guid id)
     {
         return Ok(await _passService.DeletePass(id));
-    }
-    
-    [HttpGet("pass/{id}/details")]
-    public async Task<IActionResult> GetPassDetailedInfo(Guid id)
-    {
-        return Ok(await _passService.GetPassDetailedInfo(id));
     }*/
+    
+    
     
     
 }

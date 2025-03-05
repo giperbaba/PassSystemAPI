@@ -32,4 +32,22 @@ public abstract class PassMapper
             Proofs = new List<Proof>()
         };
     }
+    
+    public static PassDetailsModel MapEntityToPassDetailsModel(Pass pass)
+    {
+        return new PassDetailsModel()
+        {
+            UserName = pass.Users.Name,
+            UserEmail = pass.Users.Email,
+            Reason = pass.Reason,
+            StartTime = pass.StartTime,
+            EndTime = pass.EndTime,
+            PassStatus = pass.PassStatus,
+            Proofs = pass.Proofs.Select(proof => new DocumentModel
+            {
+                FileName = proof.FileName,
+                FileUrl = proof.FileUrl
+            }).ToList()
+        };
+    }
 }
