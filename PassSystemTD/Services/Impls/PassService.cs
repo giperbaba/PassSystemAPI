@@ -40,7 +40,7 @@ public class PassService : IPassService
     public async Task<IEnumerable<PassPreviewModel>> CreatePass(string userId, PassCreateModel passCreateModel)
     {
         var user = await _accountService.GetUserById(userId);
-        if (user == null) throw new UserNotFoundException(ErrorMessages.NotFoundUserError);
+        if (user == null) throw new NotFoundException(ErrorMessages.NotFoundUserError);
 
         var pass = PassMapper.MapPassCreateModelToEntity(passCreateModel, user);
         
@@ -116,5 +116,17 @@ public class PassService : IPassService
         return await query
             .Select(pass => PassMapper.MapEntityToPassPreviewModel(pass))
             .ToListAsync();
+    }
+
+    public async Task<PassDetailsModel> GetPassDetailedInfo(Guid passId)
+    {
+        var pass = await _db.Passes.Include(p => p.Proofs).Include(p => p.Users).
+            FirstOrDefaultAsync(p => p.Id == passId);
+        if (pass == null)
+        {
+            throw new NotFoundException(ErrorMessages.NotFoundPassError);
+        }
+
+        return PassMapper.MapEntityToPassDetailsModel(pass);
     }
 }

@@ -118,7 +118,7 @@ public class UserService : IUserService
         var user = _db.Users.Include(r => r.Role).FirstOrDefault(u => u.Id.ToString() == id);
         if (user == null)
         {
-            throw new UserNotFoundException(ErrorMessages.NotFoundUserError);
+            throw new NotFoundException(ErrorMessages.NotFoundUserError);
         }
         
         return user;

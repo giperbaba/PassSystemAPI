@@ -24,7 +24,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         {
             await HandleExceptionAsync(context, HttpStatusCode.Forbidden, ex.Message);
         }
-        catch (UserNotFoundException ex)
+        catch (NotFoundException ex)
         {
             await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
         }

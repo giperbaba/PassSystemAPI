@@ -32,6 +32,7 @@ public class ErrorMessages
     
     //Not found errors
     public const string NotFoundUserError = "User not found";
+    public const string NotFoundPassError = "Pass not found";
     public const string NotFoundRoleError = "Role not found";
     
     //Bad request errors

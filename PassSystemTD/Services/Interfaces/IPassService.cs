@@ -12,7 +12,6 @@ public interface IPassService
     //public Task<PassPreviewModel> EditPassStatus(Guid passId, PassEditStatusModel statusModel);
     //public Task<PassPreviewModel> ExtendPass(Guid passId, PassExtendModel passExtendModel);
     //public Task<IResult> DeletePass(Guid passId);
-    //public Task<PassPreviewModel> GetPassDetailedInfo(Guid passId);
-    //public Task<IEnumerable<PassPreviewModel>> GetPasses(SortType? sort, string? search,
-        //DateTime? startDate, DateTime? endDate, int page, int pageSize);
+    public Task<PassDetailsModel> GetPassDetailedInfo(Guid passId);
+
 }
