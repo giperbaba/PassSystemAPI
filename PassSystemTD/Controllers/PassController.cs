@@ -45,25 +45,25 @@ public class PassController: BaseController
         return Ok(await _passService.GetPassDetailedInfo(id));
     }
     
-    /*[HttpPut("pass/{id}/status")]
+    [Authorize]
+    [HttpPut("pass/{id}/status")]
     public async Task<IActionResult> EditPassStatus(Guid id, PassEditStatusModel passEStatusModel)
     {
+        await EnsureAdminOrDeanRights(GetUserData(ClaimTypes.Sid));
         return Ok(await _passService.EditPassStatus(id, passEStatusModel));
     }
     
+    [Authorize]
     [HttpPut("pass/{id}/extend")]
-    public async Task<IActionResult> ExtendPass(Guid id, PassExtendModel passExtendModel)
+    public async Task<IActionResult> ExtendPass(Guid id, [FromForm] PassExtendModel passExtendModel)
     {
-        return Ok(await _passService.ExtendPass(id, passExtendModel));
+        await EnsureStudentsRights(GetUserData(ClaimTypes.Sid));
+        return Ok(await _passService.ExtendPass(id, passExtendModel, GetUserData(ClaimTypes.Sid)));
     }
     
-    [HttpDelete("pass/{id}")]
+    /*[HttpDelete("pass/{id}")]
     public async Task<IActionResult> DeletePass(Guid id)
     {
         return Ok(await _passService.DeletePass(id));
     }*/
-    
-    
-    
-    
 }

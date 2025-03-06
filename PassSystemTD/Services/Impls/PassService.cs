@@ -30,11 +30,37 @@ public class PassService : IPassService
 
     private async Task<ImageUploadResult> UploadFileToCloudinary(IFormFile file)
     {
-        var uploadParams = new ImageUploadParams
+        try
         {
-            File = new FileDescription(file.FileName, file.OpenReadStream())
-        };
-        return await _cloudinary.UploadAsync(uploadParams);
+            if (file == null || file.Length == 0)
+            {
+                throw new BadRequestException("Файл не может быть пустым.");
+            }
+
+            if (file.Length > 10 * 1024 * 1024) 
+            {
+                throw new BadRequestException("Файл слишком большой. Максимальный размер — 10 МБ.");
+            }
+
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(file.FileName, file.OpenReadStream())
+            };
+
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+            if (uploadResult.Error != null)
+            {
+                throw new Exception($"Ошибка Cloudinary: {uploadResult.Error.Message}");
+            }
+
+            return uploadResult;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка при загрузке файла в Cloudinary: {ex.Message}");
+            throw new BadRequestException("Не удалось загрузить файл. Пожалуйста, попробуйте снова.");
+        }
     }
 
     public async Task<IEnumerable<PassPreviewModel>> CreatePass(string userId, PassCreateModel passCreateModel)
@@ -59,7 +85,7 @@ public class PassService : IPassService
         _db.Passes.Add(pass);
         await _db.SaveChangesAsync();
 
-        var passes = _db.Passes.Include(p => p.Users).Where(p => p.UserId == user.Id).
+        var passes = _db.Passes.Include(p => p.User).Where(p => p.UserId == user.Id).
             Select(p => PassMapper.MapEntityToPassPreviewModel(p)).ToList();
         return passes;
     }
@@ -76,7 +102,7 @@ public class PassService : IPassService
         }
 
         var user = await _accountService.GetUserById(userId);
-        var query = _db.Passes.Include(p => p.Users).AsQueryable();
+        var query = _db.Passes.Include(p => p.User).AsQueryable();
         if (!(user.Role.IsAdmin || user.Role.IsDean))
         {
             if (user.Role.IsStudent && user.Role.IsTeacher)
@@ -100,7 +126,7 @@ public class PassService : IPassService
         if (!string.IsNullOrWhiteSpace(search))
         {
             var lowerSearch = search.ToLower();
-            query = query.Where(p => p.Users.Name.ToLower().Contains(lowerSearch));
+            query = query.Where(p => p.User.Name.ToLower().Contains(lowerSearch));
         }
         if (startDate.HasValue)
         {
@@ -120,7 +146,7 @@ public class PassService : IPassService
 
     public async Task<PassDetailsModel> GetPassDetailedInfo(Guid passId)
     {
-        var pass = await _db.Passes.Include(p => p.Proofs).Include(p => p.Users).
+        var pass = await _db.Passes.Include(p => p.Proofs).Include(p => p.User).
             FirstOrDefaultAsync(p => p.Id == passId);
         if (pass == null)
         {
@@ -128,5 +154,86 @@ public class PassService : IPassService
         }
 
         return PassMapper.MapEntityToPassDetailsModel(pass);
+    }
+    
+    
+    public async Task<PassDetailsModel> EditPassStatus(Guid passId, PassEditStatusModel statusModel)
+    {
+        var pass = await GetPassById(passId);
+        
+        await CheckIsPassInQueue(pass);
+        
+        pass.PassStatus = statusModel.Status;
+        
+        _db.Passes.Update(pass);
+        await _db.SaveChangesAsync();
+        
+        return PassMapper.MapEntityToPassDetailsModel(pass);
+    }
+    
+    private async Task CheckIsPassInQueue(Pass pass)
+    {
+        var isPassInQueue = pass.PassStatus == PassStatus.InQueue;
+
+        if (!isPassInQueue)
+        {
+            throw new BadRequestException(ErrorMessages.PassNotInQueueError);
+        }
+    }
+
+    public async Task<PassPreviewModel> ExtendPass(Guid passId, PassExtendModel passExtendModel, string studentId)
+    {
+        var oldPass = await GetPassById(passId);
+        
+        if (oldPass.UserId.ToString() != studentId)
+        {
+            throw new BadRequestException(ErrorMessages.PassAnotherUserError);
+        }
+
+        if (oldPass.PassStatus != PassStatus.Accepted)
+        {
+            throw new BadRequestException(ErrorMessages.PassIsNotAccepted);
+        }
+        
+        var newPass = PassMapper.MapPassExtendModelToEntity(passExtendModel, oldPass, studentId);
+
+        await UploadProofsForPass(newPass, passExtendModel.Proofs);
+
+        _db.Passes.Remove(oldPass);
+        _db.Passes.Add(newPass);
+        await _db.SaveChangesAsync();
+
+        return PassMapper.MapEntityToPassPreviewModel(newPass);
+    }
+
+    private async Task UploadProofsForPass(Pass pass, IEnumerable<IFormFile> proofs)
+    {
+        foreach (var file in proofs)
+        {
+            var uploadResult = await UploadFileToCloudinary(file);
+            var proof = new Proof
+            {
+                Id = Guid.NewGuid(),
+                FileName = file.FileName,
+                FileUrl = uploadResult.SecureUrl.ToString(),
+                PassId = pass.Id
+            };
+            pass.Proofs.Add(proof);
+        }
+    }
+    
+    private async Task<Pass> GetPassById(Guid passId)
+    {
+        var pass = await _db.Passes
+            .Include(p => p.User)
+            .Include(p => p.Proofs)
+            .FirstOrDefaultAsync(p => p.Id == passId);
+
+        if (pass == null)
+        {
+            throw new NotFoundException(ErrorMessages.NotFoundPassError);
+        }
+
+        return pass;
     }
 }

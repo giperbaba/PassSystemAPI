@@ -37,7 +37,8 @@ services.AddSingleton(provider =>
         ValidateAudience = true
     };
 });
-builder.Services.AddSingleton(provider =>
+
+builder.Services.AddScoped(provider =>
 {
     var cloudinaryConfig = builder.Configuration.GetSection("Cloudinary");
     return new Cloudinary(new Account(
@@ -45,6 +46,7 @@ builder.Services.AddSingleton(provider =>
         cloudinaryConfig["ApiKey"],
         cloudinaryConfig["ApiSecret"]));
 });
+
 services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

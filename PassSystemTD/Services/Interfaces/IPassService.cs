@@ -9,8 +9,8 @@ public interface IPassService
     public Task<IEnumerable<PassPreviewModel>> CreatePass(string userId, PassCreateModel passCreateModel);
     public Task<IEnumerable<PassPreviewModel>> GetPasses(string userId, PassStatus? status, string? search,DateTime? startDate, 
         DateTime? endDate, int page, int pageSize);
-    //public Task<PassPreviewModel> EditPassStatus(Guid passId, PassEditStatusModel statusModel);
-    //public Task<PassPreviewModel> ExtendPass(Guid passId, PassExtendModel passExtendModel);
+    public Task<PassDetailsModel> EditPassStatus(Guid passId, PassEditStatusModel statusModel);
+    public Task<PassPreviewModel> ExtendPass(Guid passId, PassExtendModel passExtendModel, string studentId);
     //public Task<IResult> DeletePass(Guid passId);
     public Task<PassDetailsModel> GetPassDetailedInfo(Guid passId);
 

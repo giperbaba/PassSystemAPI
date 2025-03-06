@@ -15,7 +15,7 @@ public abstract class PassMapper
             StartTime = pass.StartTime,
             EndTime = pass.EndTime,
             PassStatus = pass.PassStatus,
-            userName = pass.Users.Name
+            userName = pass.User.Name
         };
     }
     
@@ -37,8 +37,8 @@ public abstract class PassMapper
     {
         return new PassDetailsModel()
         {
-            UserName = pass.Users.Name,
-            UserEmail = pass.Users.Email,
+            UserName = pass.User.Name,
+            UserEmail = pass.User.Email,
             Reason = pass.Reason,
             StartTime = pass.StartTime,
             EndTime = pass.EndTime,
@@ -48,6 +48,20 @@ public abstract class PassMapper
                 FileName = proof.FileName,
                 FileUrl = proof.FileUrl
             }).ToList()
+        };
+    }
+    
+    public static Pass MapPassExtendModelToEntity(PassExtendModel passExtendModel, Pass passOld, string userId)
+    {
+        return new Pass()
+        {
+            Id = passOld.Id,
+            UserId = Guid.Parse(userId),
+            Reason = passOld.Reason,
+            StartTime = passExtendModel.StartTime,
+            EndTime = passExtendModel.EndTime,
+            PassStatus = PassStatus.InQueue,
+            Proofs = passOld.Proofs
         };
     }
 }
