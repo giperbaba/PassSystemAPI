@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Mime;
 using System.Reflection.Metadata;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -12,6 +13,9 @@ using PassSystemTD.Models.Enums;
 using PassSystemTD.Models.Request;
 using PassSystemTD.Models.Response;
 using PassSystemTD.Services.Interfaces;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using Size = CloudinaryDotNet.Actions.Size;
 
 namespace PassSystemTD.Services.Impls;
 
@@ -30,11 +34,44 @@ public class PassService : IPassService
 
     private async Task<ImageUploadResult> UploadFileToCloudinary(IFormFile file)
     {
-        var uploadParams = new ImageUploadParams
+        try
         {
-            File = new FileDescription(file.FileName, file.OpenReadStream())
-        };
-        return await _cloudinary.UploadAsync(uploadParams);
+            using (var compressedStream = await CompressImageAsync(file))
+            {
+                var uploadParams = new ImageUploadParams
+                {
+                    File = new FileDescription(file.FileName, compressedStream)
+                };
+
+                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+                if (uploadResult.Error != null)
+                {
+                    throw new Exception($"{uploadResult.Error.Message}");
+                }
+
+                return uploadResult;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new BadRequestException(ErrorMessages.FailedLoadFileError);
+        }
+    }
+    
+    private async Task<Stream> CompressImageAsync(IFormFile file)
+    {
+        using var image = await Image.LoadAsync(file.OpenReadStream());
+        image.Mutate(x => x.Resize(new ResizeOptions
+        {
+            Size = new SixLabors.ImageSharp.Size(1200, 1200),
+            Mode = ResizeMode.Max
+        }));
+
+        var memoryStream = new MemoryStream();
+        await image.SaveAsJpegAsync(memoryStream); 
+        memoryStream.Position = 0;
+        return memoryStream;
     }
 
     public async Task<IEnumerable<PassPreviewModel>> CreatePass(string userId, PassCreateModel passCreateModel)
@@ -59,7 +96,7 @@ public class PassService : IPassService
         _db.Passes.Add(pass);
         await _db.SaveChangesAsync();
 
-        var passes = _db.Passes.Include(p => p.Users).Where(p => p.UserId == user.Id).
+        var passes = _db.Passes.Include(p => p.User).Where(p => p.UserId == user.Id).
             Select(p => PassMapper.MapEntityToPassPreviewModel(p)).ToList();
         return passes;
     }
@@ -76,7 +113,7 @@ public class PassService : IPassService
         }
 
         var user = await _accountService.GetUserById(userId);
-        var query = _db.Passes.Include(p => p.Users).AsQueryable();
+        var query = _db.Passes.Include(p => p.User).AsQueryable();
         if (!(user.Role.IsAdmin || user.Role.IsDean))
         {
             if (user.Role.IsStudent && user.Role.IsTeacher)
@@ -100,7 +137,7 @@ public class PassService : IPassService
         if (!string.IsNullOrWhiteSpace(search))
         {
             var lowerSearch = search.ToLower();
-            query = query.Where(p => p.Users.Name.ToLower().Contains(lowerSearch));
+            query = query.Where(p => p.User.Name.ToLower().Contains(lowerSearch));
         }
         if (startDate.HasValue)
         {
@@ -120,7 +157,7 @@ public class PassService : IPassService
 
     public async Task<PassDetailsModel> GetPassDetailedInfo(Guid passId)
     {
-        var pass = await _db.Passes.Include(p => p.Proofs).Include(p => p.Users).
+        var pass = await _db.Passes.Include(p => p.Proofs).Include(p => p.User).
             FirstOrDefaultAsync(p => p.Id == passId);
         if (pass == null)
         {
@@ -128,5 +165,91 @@ public class PassService : IPassService
         }
 
         return PassMapper.MapEntityToPassDetailsModel(pass);
+    }
+    
+    
+    public async Task<PassDetailsModel> EditPassStatus(Guid passId, PassEditStatusModel statusModel)
+    {
+        var pass = await GetPassById(passId);
+        
+        await CheckIsPassInQueue(pass);
+        
+        pass.PassStatus = statusModel.Status;
+        
+        _db.Passes.Update(pass);
+        await _db.SaveChangesAsync();
+        
+        return PassMapper.MapEntityToPassDetailsModel(pass);
+    }
+    
+    private async Task CheckIsPassInQueue(Pass pass)
+    {
+        var isPassInQueue = pass.PassStatus == PassStatus.InQueue;
+
+        if (!isPassInQueue)
+        {
+            throw new BadRequestException(ErrorMessages.PassNotInQueueError);
+        }
+    }
+
+    public async Task<IEnumerable<PassPreviewModel>> ExtendPass(Guid passId, PassExtendModel passExtendModel, string studentId)
+    {
+        var oldPass = await GetPassById(passId);
+
+        if (oldPass.UserId.ToString() != studentId)
+        {
+            throw new BadRequestException(ErrorMessages.PassAnotherUserError);
+        }
+
+        if (oldPass.PassStatus != PassStatus.Accepted)
+        {
+            throw new BadRequestException(ErrorMessages.PassIsNotAccepted);
+        }
+
+        var newProofs = new List<IFormFile>();
+
+        foreach (var proof in passExtendModel.Proofs)
+        {
+            newProofs.Add(proof);
+        }
+
+        foreach (var proof in oldPass.Proofs)
+        {
+            var file = await DownloadFileFromUrl(proof.FileUrl);
+            newProofs.Add(file);
+        }
+
+        var newPassCreateModel = Mappers.PassMapper.MapPassExtendModelToCreateModel(passExtendModel.StartTime, 
+            passExtendModel.EndTime, oldPass.Reason, newProofs);
+
+        _db.Passes.Remove(oldPass);
+        var newPasses = await CreatePass(studentId, newPassCreateModel);
+
+        await _db.SaveChangesAsync();
+
+        return newPasses;
+    }
+
+    private async Task<IFormFile> DownloadFileFromUrl(string url)
+    {
+        using var httpClient = new HttpClient();
+        var response = await httpClient.GetAsync(url);
+        var stream = await response.Content.ReadAsStreamAsync();
+        return new FormFile(stream, 0, stream.Length, "file", Path.GetFileName(url));
+    }
+    
+    private async Task<Pass> GetPassById(Guid passId)
+    {
+        var pass = await _db.Passes
+            .Include(p => p.User)
+            .Include(p => p.Proofs)
+            .FirstOrDefaultAsync(p => p.Id == passId);
+
+        if (pass == null)
+        {
+            throw new NotFoundException(ErrorMessages.NotFoundPassError);
+        }
+
+        return pass;
     }
 }
