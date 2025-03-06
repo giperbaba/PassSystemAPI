@@ -38,7 +38,7 @@ services.AddSingleton(provider =>
     };
 });
 
-builder.Services.AddScoped(provider =>
+builder.Services.AddSingleton(provider =>
 {
     var cloudinaryConfig = builder.Configuration.GetSection("Cloudinary");
     return new Cloudinary(new Account(

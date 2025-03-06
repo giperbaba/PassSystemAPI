@@ -37,6 +37,7 @@ public abstract class PassMapper
     {
         return new PassDetailsModel()
         {
+            Id = pass.Id,
             UserName = pass.User.Name,
             UserEmail = pass.User.Email,
             Reason = pass.Reason,
@@ -51,17 +52,14 @@ public abstract class PassMapper
         };
     }
     
-    public static Pass MapPassExtendModelToEntity(PassExtendModel passExtendModel, Pass passOld, string userId)
+    public static PassCreateModel MapPassExtendModelToCreateModel(DateTime startTime, DateTime endTime, string reason, List<IFormFile> proofs)
     {
-        return new Pass()
+        return new PassCreateModel()
         {
-            Id = passOld.Id,
-            UserId = Guid.Parse(userId),
-            Reason = passOld.Reason,
-            StartTime = passExtendModel.StartTime,
-            EndTime = passExtendModel.EndTime,
-            PassStatus = PassStatus.InQueue,
-            Proofs = passOld.Proofs
+            Reason = reason,
+            StartTime = startTime,
+            EndTime = endTime,
+            Proofs = proofs
         };
     }
 }

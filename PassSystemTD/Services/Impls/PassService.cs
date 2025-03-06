@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Mime;
 using System.Reflection.Metadata;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -12,6 +13,9 @@ using PassSystemTD.Models.Enums;
 using PassSystemTD.Models.Request;
 using PassSystemTD.Models.Response;
 using PassSystemTD.Services.Interfaces;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using Size = CloudinaryDotNet.Actions.Size;
 
 namespace PassSystemTD.Services.Impls;
 
@@ -32,35 +36,42 @@ public class PassService : IPassService
     {
         try
         {
-            if (file == null || file.Length == 0)
+            using (var compressedStream = await CompressImageAsync(file))
             {
-                throw new BadRequestException("Файл не может быть пустым.");
+                var uploadParams = new ImageUploadParams
+                {
+                    File = new FileDescription(file.FileName, compressedStream)
+                };
+
+                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+                if (uploadResult.Error != null)
+                {
+                    throw new Exception($"{uploadResult.Error.Message}");
+                }
+
+                return uploadResult;
             }
-
-            if (file.Length > 10 * 1024 * 1024) 
-            {
-                throw new BadRequestException("Файл слишком большой. Максимальный размер — 10 МБ.");
-            }
-
-            var uploadParams = new ImageUploadParams
-            {
-                File = new FileDescription(file.FileName, file.OpenReadStream())
-            };
-
-            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-
-            if (uploadResult.Error != null)
-            {
-                throw new Exception($"Ошибка Cloudinary: {uploadResult.Error.Message}");
-            }
-
-            return uploadResult;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Ошибка при загрузке файла в Cloudinary: {ex.Message}");
-            throw new BadRequestException("Не удалось загрузить файл. Пожалуйста, попробуйте снова.");
+            throw new BadRequestException(ErrorMessages.FailedLoadFileError);
         }
+    }
+    
+    private async Task<Stream> CompressImageAsync(IFormFile file)
+    {
+        using var image = await Image.LoadAsync(file.OpenReadStream());
+        image.Mutate(x => x.Resize(new ResizeOptions
+        {
+            Size = new SixLabors.ImageSharp.Size(1200, 1200),
+            Mode = ResizeMode.Max
+        }));
+
+        var memoryStream = new MemoryStream();
+        await image.SaveAsJpegAsync(memoryStream); 
+        memoryStream.Position = 0;
+        return memoryStream;
     }
 
     public async Task<IEnumerable<PassPreviewModel>> CreatePass(string userId, PassCreateModel passCreateModel)
@@ -181,10 +192,10 @@ public class PassService : IPassService
         }
     }
 
-    public async Task<PassPreviewModel> ExtendPass(Guid passId, PassExtendModel passExtendModel, string studentId)
+    public async Task<IEnumerable<PassPreviewModel>> ExtendPass(Guid passId, PassExtendModel passExtendModel, string studentId)
     {
         var oldPass = await GetPassById(passId);
-        
+
         if (oldPass.UserId.ToString() != studentId)
         {
             throw new BadRequestException(ErrorMessages.PassAnotherUserError);
@@ -194,32 +205,37 @@ public class PassService : IPassService
         {
             throw new BadRequestException(ErrorMessages.PassIsNotAccepted);
         }
-        
-        var newPass = PassMapper.MapPassExtendModelToEntity(passExtendModel, oldPass, studentId);
 
-        await UploadProofsForPass(newPass, passExtendModel.Proofs);
+        var newProofs = new List<IFormFile>();
+
+        foreach (var proof in passExtendModel.Proofs)
+        {
+            newProofs.Add(proof);
+        }
+
+        foreach (var proof in oldPass.Proofs)
+        {
+            var file = await DownloadFileFromUrl(proof.FileUrl);
+            newProofs.Add(file);
+        }
+
+        var newPassCreateModel = Mappers.PassMapper.MapPassExtendModelToCreateModel(passExtendModel.StartTime, 
+            passExtendModel.EndTime, oldPass.Reason, newProofs);
 
         _db.Passes.Remove(oldPass);
-        _db.Passes.Add(newPass);
+        var newPasses = await CreatePass(studentId, newPassCreateModel);
+
         await _db.SaveChangesAsync();
 
-        return PassMapper.MapEntityToPassPreviewModel(newPass);
+        return newPasses;
     }
 
-    private async Task UploadProofsForPass(Pass pass, IEnumerable<IFormFile> proofs)
+    private async Task<IFormFile> DownloadFileFromUrl(string url)
     {
-        foreach (var file in proofs)
-        {
-            var uploadResult = await UploadFileToCloudinary(file);
-            var proof = new Proof
-            {
-                Id = Guid.NewGuid(),
-                FileName = file.FileName,
-                FileUrl = uploadResult.SecureUrl.ToString(),
-                PassId = pass.Id
-            };
-            pass.Proofs.Add(proof);
-        }
+        using var httpClient = new HttpClient();
+        var response = await httpClient.GetAsync(url);
+        var stream = await response.Content.ReadAsStreamAsync();
+        return new FormFile(stream, 0, stream.Length, "file", Path.GetFileName(url));
     }
     
     private async Task<Pass> GetPassById(Guid passId)

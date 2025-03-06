@@ -7,6 +7,8 @@ namespace PassSystemTD.Models.Response;
 
 public class PassDetailsModel
 {   
+    public Guid Id { get; set; } 
+    
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     [StringLength(1000, MinimumLength = 1)]
     public string UserName { get; set; }

@@ -43,4 +43,7 @@ public class ErrorMessages
     
     //Conflict errors
     public const string ConflictEmailError = "Email is already registered";
+    
+    //Cloud errors
+    public  const string FailedLoadFileError = "Failed to load file. Please try again.";
 }
