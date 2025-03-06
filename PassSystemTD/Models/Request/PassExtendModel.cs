@@ -13,5 +13,6 @@ public class PassExtendModel
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public DateTime EndTime { get; set; }
     
-    public IEnumerable<DocumentModel> Documents { get; set; }
+    [Required(ErrorMessage = ErrorMessages.RequiredField)]
+    public IEnumerable<IFormFile> Proofs { get; set; }
 }

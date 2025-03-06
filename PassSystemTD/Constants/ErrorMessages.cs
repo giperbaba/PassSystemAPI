@@ -37,8 +37,13 @@ public class ErrorMessages
     
     //Bad request errors
     public const string InvalidPageCountOrPageSizeError = "Page count and page size must be greater than 0";
+    public const string PassNotInQueueError = "This pass is not in queue. Status cannot be changed";
+    public const string PassAnotherUserError  = "You can't change pass another user";
+    public const string PassIsNotAccepted = "This pass has not yet been accepted";
     
     //Conflict errors
     public const string ConflictEmailError = "Email is already registered";
-
+    
+    //Cloud errors
+    public  const string FailedLoadFileError = "Failed to load file. Please try again.";
 }

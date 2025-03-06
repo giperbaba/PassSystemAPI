@@ -24,7 +24,7 @@ public class Pass
     public PassStatus PassStatus { get; set; }
     
     public Guid UserId { get; set; }
-    public User Users { get; set; }
+    public User User { get; set; }
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public ICollection<Proof> Proofs { get; set; } = new List<Proof>();
