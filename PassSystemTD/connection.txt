@@ -1,0 +1,19 @@
+db
+web.config
+Neon tech
+https://console.neon.tech/app/projects/wandering-waterfall-41276195?database=neondb&branchId=br-rapid-scene-a8tdsqrc
+
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <connectionStrings>
+    <add name="DefaultConnection" connectionString="Host=ep-lucky-sea-a82npzwk-pooler.eastus2.azure.neon.tech;Database=neondb;Username=neondb_owner;Password=npg_UfG49qOpHQCr;Port=5432;SslMode=VerifyCA;" />
+  </connectionStrings>
+  <location path="." inheritInChildApplications="false">
+    <system.webServer>
+      <handlers>
+        <add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModuleV2" resourceType="Unspecified" />
+      </handlers>
+      <aspNetCore processPath="dotnet" arguments=".\PassSystemTD.dll" stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" hostingModel="inprocess" />
+    </system.webServer>
+  </location>
+</configuration>
