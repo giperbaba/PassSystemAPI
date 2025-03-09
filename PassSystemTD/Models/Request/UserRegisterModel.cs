@@ -23,4 +23,7 @@ public class UserRegisterModel
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public string Password { get; set; }
+    
+    [Required(ErrorMessage = ErrorMessages.RequiredField)]
+    public UserRoleRequest Role { get; set; }
 }

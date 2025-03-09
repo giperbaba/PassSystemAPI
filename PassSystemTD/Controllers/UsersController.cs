@@ -25,7 +25,7 @@ public class UsersController: BaseController
     {
         await EnsureAdminOrDeanRights(GetUserData(ClaimTypes.Sid));
 
-        var users = await _userService.GetUsers(role, search, pageSize);
+        var users = await _userService.GetUsers(role, search, page, pageSize);
         return Ok(users);
     }
     

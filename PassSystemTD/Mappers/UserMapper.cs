@@ -8,7 +8,7 @@ namespace PassSystemTD.Mappers;
 
 public abstract class UserMapper
 {
-    public static UserProfileModel MapEntityToUserProfileModel(User user)
+    public static UserProfileModel MapEntityToUserProfileModel(User user, UserRoleRequest userWantToBe = UserRoleRequest.Student)
     {
         return new UserProfileModel()
         {
@@ -17,6 +17,7 @@ public abstract class UserMapper
             BirthDate = user.BirthDate,
             Email = user.Email,
             RoleEnum = MapEntityToRoleModel(user.Role),
+            UserWantToBe = userWantToBe
         };
     }
 

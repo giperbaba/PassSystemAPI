@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PassSystemTD.Models.Enums;
 
 namespace PassSystemTD.Entities;
 
@@ -21,6 +22,8 @@ public class Role
     public bool IsStudent { get; set; } = false;
     public bool IsTeacher { get; set; } = false;
     public bool IsDean { get; set; } = false;
+    
+    public UserRoleRequest UserWantToBe{ get; set; } = UserRoleRequest.Student;
     
     public Guid UserId { get; set; }  
     [ForeignKey("UserId")]

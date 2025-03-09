@@ -21,4 +21,6 @@ public class UserProfileModel
     public string? Email { get; set; }
     
     public IEnumerable<UserRole>? RoleEnum { get; set; }
+    
+    public UserRoleRequest UserWantToBe { get; set; }
 }
