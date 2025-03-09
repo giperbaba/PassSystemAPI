@@ -6,6 +6,7 @@ using PassSystemTD.Data;
 using PassSystemTD.Entities;
 using PassSystemTD.Exceptions;
 using PassSystemTD.Mappers;
+using PassSystemTD.Models.Enums;
 using PassSystemTD.Models.Request;
 using PassSystemTD.Models.Response;
 using PassSystemTD.Services.Interfaces;
@@ -48,12 +49,24 @@ public class AccountService : IAccountService
         
         CheckIsAgeCorrect(userRegisterModel.BirthDate);
         
-        var user = Mappers.UserMapper.MapUserFromRegisterModelToEntity(userRegisterModel);
+        var user = UserMapper.MapUserFromRegisterModelToEntity(userRegisterModel);
         
         await _db.Users.AddAsync(user);
-        var role = new Role(user.Id, false, false, false, false);
-        await _db.Role.AddAsync(role);
-        user.RoleId = role.Id;
+
+        
+        if (userRegisterModel.Role == UserRoleRequest.Student)
+        {
+            var role = new Role(user.Id, false, true, false, false);
+            await _db.Role.AddAsync(role);
+            user.RoleId = role.Id;
+        }
+        else if (userRegisterModel.Role == UserRoleRequest.Teacher)
+        {
+            var role = new Role(user.Id, false, false, false, false);
+            role.UserWantToBe = userRegisterModel.Role;
+            await _db.Role.AddAsync(role);
+            user.RoleId = role.Id;
+        }
         await _db.SaveChangesAsync();
         
         var token = new TokenResponse { Token = _tokenService.GenerateToken(user) };
@@ -122,6 +135,6 @@ public class AccountService : IAccountService
             throw new InvalidTokenException(ErrorMessages.UnauthorizedError);
         }
         var user = await GetUserByToken(token);
-        return UserMapper.MapEntityToUserProfileModel(user);
+        return UserMapper.MapEntityToUserProfileModel(user,  user.Role.UserWantToBe);
     }
 }

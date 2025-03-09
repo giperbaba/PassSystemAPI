@@ -55,7 +55,7 @@ public class UserService : IUserService
         query = query.Skip((page - 1) * pageSize).Take(pageSize);
         
         return await query
-            .Select(user => UserMapper.MapEntityToUserProfileModel(user))
+            .Select(user => UserMapper.MapEntityToUserProfileModel(user, user.Role.UserWantToBe))
             .ToListAsync();
     }
 
@@ -66,6 +66,11 @@ public class UserService : IUserService
         if (IsUserAdmin(userIdWhoDoIt))
         {
             SetUserRole(user, role);
+            
+            if (user.Role.UserWantToBe == role)
+            {
+                user.Role.UserWantToBe = UserRoleRequest.Student;
+            }
         }
         else if (IsUserDean(userIdWhoDoIt))
         {
@@ -74,11 +79,16 @@ public class UserService : IUserService
                 throw new AccessDeniedException(ErrorMessages.AccessDeniedAdminError);
             }
             SetUserRole(user, role);
+            
+            if (user.Role.UserWantToBe == role)
+            {
+                user.Role.UserWantToBe = UserRoleRequest.Student;
+            }
         }
         
         await _db.SaveChangesAsync();
 
-        return UserMapper.MapEntityToUserProfileModel(user);
+        return UserMapper.MapEntityToUserProfileModel(user,  user.Role.UserWantToBe);
     }
 
     private void SetUserRole(User user, UserRoleRequest? role)

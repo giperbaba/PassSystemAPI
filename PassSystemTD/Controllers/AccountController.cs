@@ -25,7 +25,7 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("registration")]
-    public async Task<IActionResult> Regist(UserRegisterModel userRegisterModel)
+    public async Task<IActionResult> Register(UserRegisterModel userRegisterModel)
     {
         return Ok(await _accountService.Register(userRegisterModel));
     }
