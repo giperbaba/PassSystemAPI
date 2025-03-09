@@ -20,7 +20,7 @@ public class UserService : IUserService
         _db = db;
     }
 
-    public async Task<IEnumerable<UserProfileModel>> GetUsers(UserRoleRequest? role, int page, int pageSize)
+    public async Task<IEnumerable<UserProfileModel>> GetUsers(UserRoleRequest? role, string? search, int page, int pageSize)
     //Если роль не указана, а то есть равна null, то отправляем всех пользователей
     {
         if (page <= 0 || pageSize <= 0)
@@ -28,22 +28,28 @@ public class UserService : IUserService
             throw new BadRequestException(ErrorMessages.InvalidPageCountOrPageSizeError);
         }
         
-        var query = _db.Users.Include(r => r.Role).AsQueryable();
+        var query = _db.Users.Include(u => u.Role).AsQueryable();
 
         if (role != null)
         {
-            if (role.ToString() == UserRole.Student.ToString())
+            if (role == UserMapper.MapRoleEntityToRoleRequest(UserRole.Student))
             {
                 query = query.Where(u => u.Role.IsStudent == true);
             }
-            else if (role.ToString() == UserRole.Teacher.ToString())
+            if (role == UserMapper.MapRoleEntityToRoleRequest(UserRole.Teacher))
             {
                 query = query.Where(u => u.Role.IsTeacher == true);
             }
-            else if (role.ToString() == UserRole.Dean.ToString())
+            if (role == UserMapper.MapRoleEntityToRoleRequest(UserRole.Dean))
             {
                 query = query.Where(u => u.Role.IsDean == true);
             }
+        }
+        
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var lowerSearch = search.ToLower();
+            query = query.Where(u => u.Name.ToLower().Contains(lowerSearch) || u.Email.ToLower().Contains(lowerSearch));
         }
         
         query = query.Skip((page - 1) * pageSize).Take(pageSize);
@@ -69,6 +75,7 @@ public class UserService : IUserService
             }
             SetUserRole(user, role);
         }
+        
         await _db.SaveChangesAsync();
 
         return UserMapper.MapEntityToUserProfileModel(user);
@@ -94,6 +101,8 @@ public class UserService : IUserService
             user.Role.IsTeacher = false;
             user.Role.IsDean = false;
         }
+
+        user.RoleId = user.Role.Id;
     }
 
     public bool IsUserAdmin(string userId)

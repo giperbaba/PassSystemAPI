@@ -1,9 +1,13 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using System.Reflection.Metadata;
+using System.Text;
+using System.Text.Json;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using PassSystemTD.Constants;
 using PassSystemTD.Data;
 using PassSystemTD.Entities;
@@ -113,7 +117,9 @@ public class PassService : IPassService
         }
 
         var user = await _accountService.GetUserById(userId);
+        
         var query = _db.Passes.Include(p => p.User).AsQueryable();
+        
         if (!(user.Role.IsAdmin || user.Role.IsDean))
         {
             if (user.Role.IsStudent && user.Role.IsTeacher)
@@ -139,6 +145,7 @@ public class PassService : IPassService
             var lowerSearch = search.ToLower();
             query = query.Where(p => p.User.Name.ToLower().Contains(lowerSearch));
         }
+        
         if (startDate.HasValue)
         {
             query = query.Where(p => p.StartTime >= startDate.Value);
@@ -251,5 +258,66 @@ public class PassService : IPassService
         }
 
         return pass;
+    }
+    
+    public async Task<MemoryStream> ExportPasses()
+    {
+        var passes = await GetAllPasses();
+
+        var memoryStream = new MemoryStream();
+
+        using (var package = new ExcelPackage(memoryStream))
+        {
+            var worksheet = package.Workbook.Worksheets.Add("Пропуски");
+            
+            AddPrimaryCells(worksheet);
+            FillCells(worksheet, passes);
+
+            await package.SaveAsync();
+        }
+
+        memoryStream.Position = 0;
+        return memoryStream;
+    }
+    
+    private async Task<IEnumerable<PassDetailsModel>> GetAllPasses()
+    {
+        var passes = await _db.Passes
+            .Include(p => p.Proofs)
+            .Include(p => p.User)
+            .ToListAsync();
+
+        return passes.Select(p => PassMapper.MapEntityToPassDetailsModel(p));
+    }
+
+    private void AddPrimaryCells(ExcelWorksheet worksheet)
+    {
+        worksheet.Cells[1, 1].Value = "Имя пользователя";
+        worksheet.Cells[1, 2].Value = "Email пользователя";
+        worksheet.Cells[1, 3].Value = "Причина пропуска";
+        worksheet.Cells[1, 4].Value = "Начало";
+        worksheet.Cells[1, 5].Value = "Окончание";
+        worksheet.Cells[1, 6].Value = "Статус";
+        worksheet.Cells[1, 7].Value = "Документы";
+    }
+
+    private void FillCells(ExcelWorksheet worksheet, IEnumerable<PassDetailsModel> passes)
+    {
+        int row = 2;
+        foreach (var pass in passes)
+        {
+            worksheet.Cells[row, 1].Value = pass.UserName;
+            worksheet.Cells[row, 2].Value = pass.UserEmail;
+            worksheet.Cells[row, 3].Value = pass.Reason;
+            worksheet.Cells[row, 4].Value = pass.StartTime.ToString("yyyy-MM-dd HH:mm");
+            worksheet.Cells[row, 5].Value = pass.EndTime.ToString("yyyy-MM-dd HH:mm");
+            worksheet.Cells[row, 6].Value = pass.PassStatus.ToString();
+            worksheet.Cells[row, 7].Value = pass.Proofs.Select(p => p.FileName);
+            worksheet.Cells[row, 8].Value = pass.Proofs.Select(p => p.FileUrl);
+
+            row++;
+        }
+        
+        worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
     }
 }

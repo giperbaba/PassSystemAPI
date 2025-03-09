@@ -6,23 +6,23 @@ namespace PassSystemTD.Entities;
 [Table("Role")]
 public class Role
 {
-    public Role(Guid id, bool isAdmin, bool isStudent, bool isTeacher, bool isDean)
+    public Role(Guid userId, bool isAdmin, bool isStudent, bool isTeacher, bool isDean)
     {
-        Id = id;
+        Id = Guid.NewGuid(); 
+        UserId = userId; 
         IsAdmin = isAdmin;
         IsStudent = isStudent;
         IsTeacher = isTeacher;
         IsDean = isDean;
     }
 
-    [Key]  public Guid Id { get; set; } 
+    [Key]  public Guid Id { get; set; }
     public bool IsAdmin { get; set; } = false;
     public bool IsStudent { get; set; } = false;
     public bool IsTeacher { get; set; } = false;
     public bool IsDean { get; set; } = false;
     
-    
-    
-    [ForeignKey("Id")]
+    public Guid UserId { get; set; }  
+    [ForeignKey("UserId")]
     public User User { get; set; }
 }

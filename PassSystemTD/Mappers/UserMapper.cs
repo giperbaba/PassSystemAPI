@@ -44,4 +44,24 @@ public abstract class UserMapper
             Password = hashedPassword,
             };
     }
+
+    public static UserRoleRequest? MapRoleEntityToRoleRequest(UserRole role)
+    {
+        if (role == UserRole.Dean)
+        {
+            return UserRoleRequest.Dean;
+        }
+
+        if (role == UserRole.Student)
+        {
+            return UserRoleRequest.Student;
+        }
+
+        if (role == UserRole.Teacher)
+        {
+            return UserRoleRequest.Teacher;
+        }
+
+        return null;
+    }
 }

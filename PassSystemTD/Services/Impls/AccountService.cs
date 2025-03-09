@@ -51,7 +51,9 @@ public class AccountService : IAccountService
         var user = Mappers.UserMapper.MapUserFromRegisterModelToEntity(userRegisterModel);
         
         await _db.Users.AddAsync(user);
-        await _db.Role.AddAsync(new Role(user.Id, false, false, false, false));
+        var role = new Role(user.Id, false, false, false, false);
+        await _db.Role.AddAsync(role);
+        user.RoleId = role.Id;
         await _db.SaveChangesAsync();
         
         var token = new TokenResponse { Token = _tokenService.GenerateToken(user) };

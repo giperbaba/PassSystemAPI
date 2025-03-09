@@ -26,6 +26,7 @@ public class PassController: BaseController
         await EnsureStudentsRights(GetUserData(ClaimTypes.Sid));
         return Ok(await _passService.CreatePass(GetUserData(ClaimTypes.Sid), passCreateModel));
     }
+    
     [Authorize]
     [HttpGet("pass/list")]
     public async Task<IActionResult> GetPasses(PassStatus? status,
@@ -59,6 +60,17 @@ public class PassController: BaseController
     {
         await EnsureStudentsRights(GetUserData(ClaimTypes.Sid));
         return Ok(await _passService.ExtendPass(id, passExtendModel, GetUserData(ClaimTypes.Sid)));
+    }
+    
+    [Authorize]
+    [HttpGet("pass/export")]
+    public async Task<IActionResult> ExportPasses()
+    {
+        await EnsureAdminOrDeanRights(GetUserData(ClaimTypes.Sid));
+        var memoryStream = await _passService.ExportPasses();
+            
+        return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+            $"passes_export_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx");
     }
     
     /*[HttpDelete("pass/{id}")]

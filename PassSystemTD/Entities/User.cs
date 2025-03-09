@@ -5,12 +5,11 @@ using PassSystemTD.Models.Enums;
 
 namespace PassSystemTD.Entities;
 
-
 [Table("Users")]
 public class User
 {
-    [Required(ErrorMessage = ErrorMessages.RequiredField)]
-    [Key] public Guid Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
 
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     [StringLength(1000, MinimumLength = 1, ErrorMessage = ErrorMessages.NameLengthError)]
@@ -25,8 +24,12 @@ public class User
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     [StringLength(1000, MinimumLength = 1, ErrorMessage = ErrorMessages.EmailLengthError)]
     public string Email { get; set; }
+
     public string Password { get; set; }
-    public Role Role { get; set; }
     
+    public Guid RoleId { get; set; }
+    [ForeignKey("RoleId")]
+    public Role Role { get; set; }
+
     public ICollection<Pass> Passes { get; set; } = new List<Pass>();
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PassSystemTD.Data;
@@ -11,9 +12,11 @@ using PassSystemTD.Data;
 namespace PassSystemTD.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250307140502_FixedRole")]
+    partial class FixedRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,6 @@ namespace PassSystemTD.Migrations
             modelBuilder.Entity("PassSystemTD.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsAdmin")
@@ -94,916 +96,810 @@ namespace PassSystemTD.Migrations
                     b.Property<bool>("IsTeacher")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Role");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("47c8ef3a-0ecf-4255-9be9-fc3b673c1d4e"),
+                            Id = new Guid("dbf9137e-6db4-4bd6-af02-e9a6d7048d6a"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("2027db61-452c-4bf5-8f34-493c93ddf9bf")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("5634557f-812a-4f91-82ed-0fc96aa28dc2"),
+                            Id = new Guid("338e0d84-f583-4e72-9681-db592231ec39"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("69af8236-db70-4c6a-b7f7-e4625e779313")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("8e83f7d9-d9cd-4d5c-be61-dfa30c4de329"),
+                            Id = new Guid("054d595a-593b-4a37-b074-7bb8dbef619b"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("7bf90894-1d33-4b21-aa74-b88e6c7c244d")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("fed3d554-653e-4a5e-a117-b9f2274edba8"),
+                            Id = new Guid("ccc312a7-d1c4-4d24-a54b-b68b24766b0f"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("cdc515c0-6b42-4494-a936-bbbf0193ee80")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("9ca74fa8-482f-497a-8caf-20d501ec93cd"),
+                            Id = new Guid("c20d369d-e81b-49b7-af33-926efcc5f349"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("eb6abea0-0e79-4216-8c29-38d3e0c23d77")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("993e94cd-775b-4657-b8e0-68e1e48ff0db"),
+                            Id = new Guid("91c72994-e23e-42d7-9853-1276c2ad5967"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("3bdc1960-13b5-42d4-8618-0c2e52d72721")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("b49a4d03-69e3-4a0e-a836-278677518123"),
+                            Id = new Guid("e045f227-b146-4c2a-a94f-26c712c7f7ef"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("e83d3398-ad83-468a-96c8-2b071ab4159e")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("813b32d4-4004-4df5-9671-1fd0410cfe93"),
+                            Id = new Guid("c1c950ab-0ce7-46df-92c6-41aee1d9f313"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("e719a908-f784-42c6-bb49-ee71649a442b")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("1646abc4-5060-4684-807c-28695e9ba9c1"),
+                            Id = new Guid("e6679657-10f6-4564-a1aa-0c755264aef7"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("d5933118-eb16-4391-be5a-d4f726b1bbae")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("0e856a15-73d8-4948-ad68-b3e8155cd501"),
+                            Id = new Guid("c968874d-168e-44da-9e7b-ccd45d8d7f05"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("5d1cc15c-b3e1-413b-9314-7933a5bed49b")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("2ff20b14-f52d-46c2-994a-8b06f48a4802"),
+                            Id = new Guid("b4bdc4d5-6bb5-4967-a929-982b1f35017f"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("1b271e5d-f143-433c-9909-18304784c0dc")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("0ef255ee-5523-419e-9d7e-33b5ff92c0bd"),
+                            Id = new Guid("2424580a-04f7-40d5-b12f-4dd7b6e88e95"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("5155113f-466d-4f00-93b8-e75b6c8f7189")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("5fdeb301-a27e-4a07-ae26-e8f777f4c7b1"),
+                            Id = new Guid("02dfa0f5-a524-404d-be67-6806eddf1ac9"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("b31e5d44-8ed3-479a-b6d6-59f632630ab0")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("2eac3628-02be-452a-bded-39cb31454006"),
+                            Id = new Guid("02fa75f3-538c-4ac7-a783-793617acb817"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("33b3d7ed-c116-4351-ad2e-ae1b6bc1cd95")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("56806919-9512-479b-afdb-7d80220cefdd"),
+                            Id = new Guid("f8fb2f43-3db5-4d24-8d91-aec910d19da5"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = true,
-                            UserId = new Guid("9ac52ade-a530-4447-83c4-dbf15d463f17")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("d73fbeb5-c0b9-460a-8cf0-f741fec099e8"),
+                            Id = new Guid("390c981b-0a74-4bd4-a4b5-4e5b44cbde2e"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("0641a5ea-d749-4991-a982-330252578fae")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("be9de5da-e339-4968-85dc-032121ed74b2"),
+                            Id = new Guid("b09027c5-8bee-4d4c-ba58-f5ac8a06eb3d"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("8533808b-75cb-448c-89a4-666b476c9f2a")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("a2ef0935-5f4c-4820-9d43-361bea11a096"),
+                            Id = new Guid("9e53c14f-e443-4a2a-993f-2c74ac0d1787"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("8abb5551-1228-4c96-9300-949f91ec7b33")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("eec886f4-a9db-48bc-b0e8-e6b657970778"),
+                            Id = new Guid("600f6c61-3a7c-4806-ac76-a3dba81b4042"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("e54eeb7c-ba03-4123-bdb8-3c2bc61211b5")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("b4da5b75-14a2-49ba-bd56-f662e783e632"),
+                            Id = new Guid("355633b6-8523-4f06-b256-130894ee0c65"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("e77e4678-de32-42bf-bce4-097956c07c8c")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("97d72995-1f24-4631-a8eb-1eab1385d04a"),
+                            Id = new Guid("ef59e76b-2b3f-4b30-9458-c891e3c85cd5"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("2563db6f-4c4e-4031-b41a-850a1b243181")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("4caa40ae-1827-4a65-bde7-f05c949a7bc3"),
+                            Id = new Guid("268707b3-4f7c-4861-8d96-6639a50b369d"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("7491c501-478a-4aeb-ae00-17ac630e1314")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("9b8e4f52-1db6-407c-8cf1-3397e79f1253"),
+                            Id = new Guid("fdff63bf-5196-4122-a759-a9d967ed8674"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("5144ae96-d3bb-4199-a7a0-342774f16bf6")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("3034079b-ffd4-4f97-a9fa-699d62795b2b"),
+                            Id = new Guid("42232f21-4eb2-4748-92a6-96bb3fa816db"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("66d1eafb-4e91-4d1b-a102-9ccbcba4253a")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("83d3c4a1-465a-4beb-910f-336afb2301e1"),
+                            Id = new Guid("22cc553a-9dd9-4c6c-a5fe-996a13ce1e20"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("b9f39656-a26d-45a3-8a09-ee9c162bc11d")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("ef258e22-8e0c-478d-b963-3be1921ecc47"),
+                            Id = new Guid("86c08a8c-2f94-4f3d-a666-2d4107af3aa2"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("62d062ea-4100-4138-bd9f-6e7a1fcf9dd8")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("18e83c78-812c-4de7-98ee-d751c6460f78"),
+                            Id = new Guid("cb7073ba-8d14-4d51-946b-8429d6b1e8f8"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("68aa8b00-622e-44fc-9f98-25b3c9c23f34")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("ffd42a30-e582-4df8-9208-ff5fdef33d28"),
+                            Id = new Guid("24aa9ade-ac24-44e0-97e3-ec50df7c3a7d"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("c6d64e0a-e373-437f-8fcd-0d83228f7c44")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("44339d22-f4d3-4117-9e8e-7007a6638f41"),
+                            Id = new Guid("5bda4ff9-b04e-4a8a-bf73-0a16c52dfa77"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("480bf0d9-39d6-4fd3-9b1e-ad138aeb3483")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("01522160-a509-4659-aa80-772b0c50d501"),
+                            Id = new Guid("f7756e59-a187-4578-b18b-281f02a2d399"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = true,
-                            UserId = new Guid("3f0f7602-7055-4a5d-8aa7-a3d25c7d6ede")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("1c0972ff-3d9b-482f-8b36-93cda5f73123"),
+                            Id = new Guid("4ab9f12d-78a4-4805-b23c-c0093717a7b0"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("9d795ca6-def5-47ee-9a66-9605eabc97ca")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("13efeb92-5001-413d-8d00-4ba5a1d8cbf5"),
+                            Id = new Guid("25641c23-5c3b-4652-b189-18b158414d33"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("860c31a6-78c2-4886-941c-be174fd55a89")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("2d99793c-4a6c-4e13-9c44-dd0323ec3f17"),
+                            Id = new Guid("3277a1f4-5663-4fdf-8a76-359622a37e55"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("21f9b2cf-b6ef-4d11-a0ba-818d26d7a006")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("e22d0f9a-1061-4d24-a669-acc8931d7023"),
+                            Id = new Guid("da942392-6f52-4062-8873-650cfb1ad111"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("883f74e0-5e1a-4a79-861a-ecb314a07fba")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("cd05b1b6-9ec2-443e-b946-619c6d0919d2"),
+                            Id = new Guid("554ae3de-6629-4ef5-bf1b-b5da1e326a1a"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("2c4dd255-2a45-45f8-ae1f-fc8851d3782a")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("fe0099d2-f62f-4151-8c89-9aac0d32e78f"),
+                            Id = new Guid("8fb0564b-92c2-47a2-a311-a90e91e96983"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("9f33c46b-4abd-4fd9-bc83-7b7f9f74c491")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("ec8f5aca-9b03-4b5d-a633-6ea6711aa0f8"),
+                            Id = new Guid("dc9bceba-e1dd-434f-b358-af47a26e73be"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("7263f1f1-a731-40e0-a94a-e96eab6424a6")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("bd40ae06-825a-4b7e-a9de-e2aaf2cae4a7"),
+                            Id = new Guid("7c57490e-6352-451e-a44d-a7dd75367ff6"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("8815dd6f-0311-4e85-b233-985960745df6")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("11839a6b-ba09-492e-8d74-019d07b9bbaf"),
+                            Id = new Guid("8dfc3516-79d4-4960-bc57-ff7431b5bb8f"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("2215e8fb-a6f5-4b37-8b50-7a6b02d581d6")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("b3dbd91a-6673-49a8-9a05-44783b5f7411"),
+                            Id = new Guid("4b29a881-301b-4162-9dbe-9a87448484f5"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("8b6b979d-a208-4c2e-8815-caa546dee237")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("f68e256b-ee49-4326-8ac6-9f83d7af001b"),
+                            Id = new Guid("c5c24958-cb8e-49ac-9eab-d06d0e26535c"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("49a9aae9-2b91-4812-a7d2-c96d7a2cb973")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("087a9dff-7477-43cd-a394-069be95ca989"),
+                            Id = new Guid("6e645df8-7d67-4968-aba1-59748723c2f6"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("fa737043-6a38-4793-a8b8-de4fa410862a")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("6b18a096-62a9-4a7c-b5d1-3c0c66093108"),
+                            Id = new Guid("31c8c5a0-22c6-4454-a923-f8084662b039"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("cc196503-7307-4280-a8f7-42bbca4f8c24")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("a087980a-726e-410e-8902-dd2bc051e255"),
+                            Id = new Guid("25021999-8ede-460a-8e9d-3cd62378f78f"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("b01b7f37-433b-4529-94d0-3644ef9724e9")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("74750442-13a9-431d-a990-fbb18dcc7654"),
+                            Id = new Guid("d676416d-6001-4f2a-baf9-67f15095c951"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = true,
-                            UserId = new Guid("6bbdefc6-358d-4a57-9fea-4ac4d31cf0df")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("b5b04b06-71f4-4adc-bc71-958600532281"),
+                            Id = new Guid("2c991324-71d9-4558-b3f9-09968456b00b"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("8c8d2905-6abf-456e-9044-81c184b4d223")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("94302913-78fc-4940-9754-47e7c0aa2429"),
+                            Id = new Guid("1e4826ae-0f6c-42c8-83ac-0df7af0700c0"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("740a0023-5020-430b-abf7-39b8b24a398e")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("e8fed88a-aa3f-4144-94c0-b174005f384f"),
+                            Id = new Guid("fc00841d-1b5e-449d-a098-4d79fabe3a98"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("86a09aca-ead3-4708-916e-38f6f293236d")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("efb280af-8b30-47af-ab12-fa9c09b526b1"),
+                            Id = new Guid("a541de40-12ec-4dd1-bce7-65b640ea6e49"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("28223e42-61a3-4d19-a48a-46296a43de79")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("7a94b568-38eb-411d-9dd6-d337f7779053"),
+                            Id = new Guid("352b2986-71ed-44d5-979d-87de83aabcc2"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("9e5e4896-b923-4cd9-841c-77fa1fe6537a")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("49984aaa-b2ab-46ac-8a18-51e0590020af"),
+                            Id = new Guid("b7366270-77e0-4b14-bd44-11215cdd568f"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("1f50e98b-1acd-432c-8d6c-49e5f94ec654")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("84e862ce-f4c5-4fc7-823a-8ff2a8779f66"),
+                            Id = new Guid("cbdac6c7-9268-4cf9-9528-a9ac3e31ba6e"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("78e58e86-5e6c-4c00-add1-739b665768cc")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("9e39fedf-bc1b-4350-83c5-2eebea877644"),
+                            Id = new Guid("1cc6be3a-9978-4152-9718-366ba8471445"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("84c17fb7-3997-4eb9-bcbe-02a606f6ea56")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("d81add96-959f-4c94-9fad-d64066249bfa"),
+                            Id = new Guid("31a91bbf-ca65-459e-a20f-b7f6dbd67b83"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("93d265cd-a39f-4cce-b97f-ed5b031eee35")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("0c42d1b0-068a-4891-84f2-a825a3b95c48"),
+                            Id = new Guid("d6b610bc-1713-4281-aa07-eab7df370037"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("2e89e813-5a6a-41c3-8893-190a31ef8bd5")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("61d3b18b-2db2-47aa-a9cb-011fe0fdc50d"),
+                            Id = new Guid("d844ad1a-67a6-4a5b-bdf2-30887afbf7c1"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("2d3ec0d3-130b-4bd7-8202-f57387412d69")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("1240c8af-580d-4cb9-92e5-5d93890040c3"),
+                            Id = new Guid("c2a56740-50b9-4933-b93c-f05c5fed3839"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("145b1d2f-1da3-4bec-a978-539a332c1649")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("1d3c765b-d720-4bcc-a606-c5bffcc4bc31"),
+                            Id = new Guid("451fbeca-e948-47e3-8eb5-cc051f9d1e2a"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("1e67b20a-c523-4178-bdf5-16d452781b27")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("17f2b2ac-0f2c-45dd-a85a-7a8abe0d7be8"),
+                            Id = new Guid("6847d61d-71a3-48c0-8ce3-1bfa9f2e329a"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("2471054b-a45e-44fd-86d9-2af2f6345793")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("8ac0f1ed-7f7b-4c8a-aeab-e60a9be034ae"),
+                            Id = new Guid("62b928ed-4d68-447f-ab20-515114ab7583"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = true,
-                            UserId = new Guid("0c77ee4c-b8d6-454e-978e-be2257dd2e3c")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("ef509d7a-437f-4de9-b664-dc97cd82b0db"),
+                            Id = new Guid("f2534357-b043-4b85-8c86-10a49de4a701"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("3dfce0b1-7d61-47ff-9053-1b18a3a9a69a")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("3bff0d9b-5aab-4c6f-be00-3d8bbf85189c"),
+                            Id = new Guid("51e7aeb1-4d81-46b0-afbc-40edceaa6975"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("0f2c23ef-8e11-4f85-85ba-78ccd150d9bb")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("207dd016-39e0-4b13-944f-4cb0e189f848"),
+                            Id = new Guid("6e9c01f8-565f-480b-a40d-0fe618fd5e1c"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("4506f837-d214-48bb-8a71-5faea5494c83")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("085b2acc-dc89-4433-baa9-a89b94d54639"),
+                            Id = new Guid("80f4f8e1-165f-4daa-b423-9c61ef4906e4"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("a5966ef9-31ea-4e17-b5f3-bfcc2920297d")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("37a40bf2-8808-43d5-9e2a-210a526015f4"),
+                            Id = new Guid("da1179d6-6753-4df0-83a1-6b8b5adbb713"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("5312113a-ce17-476f-bf87-5e3a861027c2")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("b6aa6019-27da-40a2-816e-92a148f47140"),
+                            Id = new Guid("7cd57e07-b554-4ee4-8402-8ef277f91f4c"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("7897a73e-7546-498d-bde6-4f0a8abdd24d")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("1fe40b16-0c97-4294-aed6-f8e9aaa3790a"),
+                            Id = new Guid("661820ee-d643-4586-be72-53422b52e6c9"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("e4100d6d-dd3a-4a08-9206-fba2e9e9e536")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("ee63961c-a1d4-4183-bdcd-642b7fc63c89"),
+                            Id = new Guid("18303189-52c6-4e73-b206-0f2211be3492"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("bc16147c-3863-483f-ab18-cfbdb91166d8")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("c41f7070-f624-4cf2-a434-6c93d216820b"),
+                            Id = new Guid("5bec4830-e709-4f11-be43-fc3de4f86d5f"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("a521b155-dc28-4c92-bf3d-1ce2b745f892")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("441de618-14cb-4bdb-b6a2-ba532bd86630"),
+                            Id = new Guid("3015ea6d-aa37-414c-a5d5-2f90a509b717"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("3e546a14-ccb5-4e75-92f5-c1f3614953a5")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("1013b788-fda6-499e-8972-030a53f128ad"),
+                            Id = new Guid("04afe721-cc98-4a17-9b71-03ce98215e2f"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("ce52fca6-72d1-4d97-a529-401a09648b9d")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("856e062c-456e-43d3-8398-81503db4c994"),
+                            Id = new Guid("5e107b93-1d6e-4888-ad44-eae6570bd9b6"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("8a6ee593-0716-4ecb-96a5-ecfe1ea596c9")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("dbb2e333-d8f0-4e9b-94d1-9e7ea9c2b662"),
+                            Id = new Guid("a3a49cff-1fe1-4e5d-b4ad-2f044e5c496c"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("b30cbdab-d85f-441f-8859-e9588cd6527f")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("851b5fe2-7847-48db-ab15-8e5734142496"),
+                            Id = new Guid("1165e693-0e40-48f1-bb2b-c1f2e2837ff1"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("8554f8f0-8c01-4ea7-9982-d9696e59f5d7")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("9c17168e-6b19-40df-b95c-790733cb6e45"),
+                            Id = new Guid("95ead1e6-dd25-4211-9379-c0913c54ef96"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = true,
-                            UserId = new Guid("0abe5794-e3d6-4950-a75e-3d83ed9f022b")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("2b91d631-e3c3-44ab-90e2-4ba37e721797"),
+                            Id = new Guid("f3270699-8563-400e-87c1-bcf7b87a1ad3"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("b54be218-f3ed-44f0-a88c-8e3362a2f9a1")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("5b575eae-9b11-4842-b6e7-c6f2aeca6be9"),
+                            Id = new Guid("743c7a56-cf2b-4364-921a-c0e5f3ea4f69"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("30e1d0f3-ccae-4785-ae51-52e6c994aacd")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("9fc781ab-0d0c-42f9-9208-9c729cdf093f"),
+                            Id = new Guid("5fabac1f-22ed-4b6d-86f0-ef2cd1925f71"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("da2a8d35-b8b4-4679-b0fb-f33cfe973459")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("2070a997-f4a7-4770-a418-81bfd07313dd"),
+                            Id = new Guid("404184e4-5feb-4f80-b989-5ca81b2a9661"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("eda6168b-6515-4b5f-a4ee-6af2a31312f9")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("7bf76e6e-17fd-436a-9f2e-6cd9e2ae76fc"),
+                            Id = new Guid("94f48908-632d-42ac-bbfc-31aa1a4cc6b9"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("731fb401-e0cd-4aee-bf79-7a3fc0e5f69d")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("520587f7-8001-4c2f-ae8f-b4174c10f1e1"),
+                            Id = new Guid("d7524c60-8aeb-468c-8102-07da9808a9f9"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("f97b231c-31da-49a3-90eb-306bef8c72c1")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("6f6ccb1e-d2e8-4c1b-b0c4-8a51a341ff06"),
+                            Id = new Guid("5aacb7e1-62f1-41b9-a799-1948f48cbdde"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("10148a74-60c6-4888-9f69-70a74945d394")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("ccc1ca2a-ca80-402c-93a7-6da4768920b4"),
+                            Id = new Guid("131196fc-78bc-4d00-8e24-a52510697e1b"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("4e37bbbb-642e-43f2-83bf-2e70402016a1")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("5aca1cd8-257a-496a-bfe7-07a107ecb718"),
+                            Id = new Guid("b8095c10-7f45-4d4e-b8e4-b312c9388100"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("4efa3c17-9aed-4182-9bf6-1e9dce436d13")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("487e258f-a9a4-48af-b6a5-4ed95ce3c473"),
+                            Id = new Guid("f4ac4af5-057b-438a-a8e4-7e67bc656837"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("30912a18-6188-4bd7-b266-1bc5a56e0e06")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("162e6092-6bf6-4768-bca8-bbf7a30479d8"),
+                            Id = new Guid("4ee18cea-acc7-4022-9be0-d2165584b1df"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("4c682287-c7d1-49bf-8baf-012590d02fff")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("7403d73b-4d89-4c20-b5a8-1077ca33ce9e"),
+                            Id = new Guid("5990c572-1953-4756-b082-02a602e92cb7"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("6f77416f-8c2e-455b-82dc-346345f1cc66")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("cf83d198-160b-404c-bc76-63fa93d80f6a"),
+                            Id = new Guid("b09296ea-f679-49b7-bb3e-fd0dafee398b"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("2292e013-8588-4fac-9676-8582b686d631")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("fc6e35b6-3c07-4e32-b6e1-9f0b7f34675d"),
+                            Id = new Guid("1952d507-7574-4ea8-af35-dda2d392078c"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("f75fccc3-92e9-4827-ae42-b6500c968337")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("ba809136-2aee-4c00-bcf4-272f7e472c32"),
+                            Id = new Guid("cef0842d-9599-4b17-9e02-ea090254bd1e"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = true,
-                            UserId = new Guid("57ef23b1-38f3-41fb-9bf0-c5470eb193a1")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("9861dbce-6a03-427e-a696-7f170bca80bd"),
+                            Id = new Guid("4bef3b42-1470-4b05-9271-9ad09364ac6f"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("a13bbaf6-66a3-4087-b7f4-9b5c7e472bb2")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("78e92936-afc5-45f8-84e4-1f716278530e"),
+                            Id = new Guid("3e985afc-1963-4f46-9de6-fda64bbe6d2c"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("50d128ec-ca48-44f3-9248-0d00c4a8cb6c")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("035ea55f-69e8-4daa-b5e7-b0e277862828"),
+                            Id = new Guid("bb2a45f9-a07f-4739-9b20-4bbd46bae07b"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("f5a82c47-1dc2-41cd-9546-8c62b5b08045")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("f05e9441-8dfb-402e-a15e-c2d064e0e68b"),
+                            Id = new Guid("c7f5132d-d706-423b-a3af-f90611469788"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("e038d487-a20e-4b00-8777-3730b05a7c67")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("e1fb2018-24d2-4956-aad5-99c44d3c7c26"),
+                            Id = new Guid("64be8ba5-604f-42ad-a339-0f1ee7142c93"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("a329d081-971e-43aa-a388-9683e85697e6")
+                            IsTeacher = true
                         },
                         new
                         {
-                            Id = new Guid("6a76d9aa-849e-4c68-b218-5898246a6e46"),
+                            Id = new Guid("3ce04e3a-186a-4bd6-8ffe-47f210341b25"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("992f6210-4e0d-4578-b3c5-e09a02bbdaca")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("0231cee2-5471-4658-b326-0696c17a05f1"),
+                            Id = new Guid("dc3d38c0-a982-4635-94a5-61807d522432"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("a957989e-226f-4bb8-afa2-94e6d40998e9")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("00bff54c-20b2-403d-a419-f493aa760737"),
+                            Id = new Guid("6f384cfd-1a56-48a8-bb98-65fa0dbca5d6"),
                             IsAdmin = false,
                             IsDean = true,
                             IsStudent = false,
-                            IsTeacher = false,
-                            UserId = new Guid("0fb0c78d-3129-4405-b10f-739deea74b39")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("ccfa113a-e520-4479-9af9-bc2365dd0897"),
+                            Id = new Guid("c0bee675-885f-4ff8-9fe6-be7d18aa2538"),
                             IsAdmin = false,
                             IsDean = false,
                             IsStudent = true,
-                            IsTeacher = false,
-                            UserId = new Guid("a41982b7-d58c-42ff-942b-31059e50140a")
+                            IsTeacher = false
                         },
                         new
                         {
-                            Id = new Guid("a7272a23-9493-412a-8838-d31a6b348058"),
+                            Id = new Guid("c01ede05-beff-4344-b664-f22eba96a23e"),
                             IsAdmin = true,
                             IsDean = false,
                             IsStudent = false,
-                            IsTeacher = true,
-                            UserId = new Guid("7e80f554-4aa0-48f7-84ed-64f60ebd8099")
+                            IsTeacher = true
                         });
                 });
 
@@ -1057,902 +953,902 @@ namespace PassSystemTD.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2027db61-452c-4bf5-8f34-493c93ddf9bf"),
+                            Id = new Guid("dbf9137e-6db4-4bd6-af02-e9a6d7048d6a"),
                             Email = "user1@example.com",
                             Gender = 1,
                             Name = "User1",
-                            Password = "$2a$11$27o3kFYVIv5WqWd9mD/07OzEeY8p2PLqy3eF7M7DWXZfMeK3aQiii",
+                            Password = "$2a$11$OiTO75Q0qIFvDNqZPuwS2uePPLNEiybss23xchNJvSkCyyFjuxVJu",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("69af8236-db70-4c6a-b7f7-e4625e779313"),
+                            Id = new Guid("338e0d84-f583-4e72-9681-db592231ec39"),
                             Email = "user2@example.com",
                             Gender = 0,
                             Name = "User2",
-                            Password = "$2a$11$ClsYGWkrPGks.hes2AzNa.G8dUtpQ/mS35.0YYE2p.Aej2LQWVgiy",
+                            Password = "$2a$11$TkqL5/djl4pPbj6CY0GZjeUfuaORHi1n.xCypv.YqIDs6rXT6tvcS",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("7bf90894-1d33-4b21-aa74-b88e6c7c244d"),
+                            Id = new Guid("054d595a-593b-4a37-b074-7bb8dbef619b"),
                             Email = "user3@example.com",
                             Gender = 1,
                             Name = "User3",
-                            Password = "$2a$11$ulgN2ZWhmFVWVxWtG4nG4eoDiLVvE/VuwQWU7Yn5mASwatoWoJPym",
+                            Password = "$2a$11$78sl71g8aTlDCgOQWHX/BOo8PGepNlUJ.taXHFhVOYage6TbLNRYW",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("cdc515c0-6b42-4494-a936-bbbf0193ee80"),
+                            Id = new Guid("ccc312a7-d1c4-4d24-a54b-b68b24766b0f"),
                             Email = "user4@example.com",
                             Gender = 0,
                             Name = "User4",
-                            Password = "$2a$11$cY9oX.knCCU0GNwSNofit.zIoG7uxkcl/aoO9WrFoWD5RTgeEzo8y",
+                            Password = "$2a$11$DkEV5P6VTpmoeRvJjo149eDjsCCSODiMIR20ZGXHLHy81jORFS19e",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("eb6abea0-0e79-4216-8c29-38d3e0c23d77"),
+                            Id = new Guid("c20d369d-e81b-49b7-af33-926efcc5f349"),
                             Email = "user5@example.com",
                             Gender = 1,
                             Name = "User5",
-                            Password = "$2a$11$/VbpjgbQNaQPrG0Wq.GtHeUl1tVgouHUE95qLbMcdxcDHlTHFDCnK",
+                            Password = "$2a$11$uTZwCb1nbxAliwoPFyu9/uPy49CmaILRMWUIr8TmUGKi22BGGpYoq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("3bdc1960-13b5-42d4-8618-0c2e52d72721"),
+                            Id = new Guid("91c72994-e23e-42d7-9853-1276c2ad5967"),
                             Email = "user6@example.com",
                             Gender = 0,
                             Name = "User6",
-                            Password = "$2a$11$i0piMhHWgKqVDYvz96J3kOeYZAoBcoVKkQ1.PIG1PTxs19PtcR.oG",
+                            Password = "$2a$11$zf1Xh2fMfQhDWuGMCp5VTeVZkt9cCSHkWUWxpDmv9tHqqIENnCSwy",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("e83d3398-ad83-468a-96c8-2b071ab4159e"),
+                            Id = new Guid("e045f227-b146-4c2a-a94f-26c712c7f7ef"),
                             Email = "user7@example.com",
                             Gender = 1,
                             Name = "User7",
-                            Password = "$2a$11$OheHEewimKJPuCwIDGSaT.jfdeK8i8/Q6lqHApohmeHTH9HfzzICe",
+                            Password = "$2a$11$NT0OnN6f6wGOBgW6w03STO.vsssnY2oR4hK5cqpKsv.TTIKVeptNq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("e719a908-f784-42c6-bb49-ee71649a442b"),
+                            Id = new Guid("c1c950ab-0ce7-46df-92c6-41aee1d9f313"),
                             Email = "user8@example.com",
                             Gender = 0,
                             Name = "User8",
-                            Password = "$2a$11$e3y2ddC2MyZVXPDu0hKvkuZZ0F/Bzl/EGQueUoBT11GAgDY7RMsmG",
+                            Password = "$2a$11$niT9j6I4sIFuVHHT4yFmIuqapMAaNL4lqlVkovN8LKi4huK.PM9mu",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("d5933118-eb16-4391-be5a-d4f726b1bbae"),
+                            Id = new Guid("e6679657-10f6-4564-a1aa-0c755264aef7"),
                             Email = "user9@example.com",
                             Gender = 1,
                             Name = "User9",
-                            Password = "$2a$11$pQvmV/IhPEB1VI3p9vX0I.r1njI9IEmmlDxZTcR4nVZbOrWF2.LiG",
+                            Password = "$2a$11$iAYdUWk3pgcnPJjPdPlq6.bGcOnoT7wyvlkGTdy7G0ydo.7MUZ2Mq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("5d1cc15c-b3e1-413b-9314-7933a5bed49b"),
+                            Id = new Guid("c968874d-168e-44da-9e7b-ccd45d8d7f05"),
                             Email = "user10@example.com",
                             Gender = 0,
                             Name = "User10",
-                            Password = "$2a$11$WbbBvVTApsKo/g/YNzHaYe0.b1gW3E2Soa60JJEm3TIA.VbxqI18G",
+                            Password = "$2a$11$B3WbvDk6B.g1GFIeBF3jPOFbTOYuOWmGt/s8SlqIdOwmMPERpULZ2",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("1b271e5d-f143-433c-9909-18304784c0dc"),
+                            Id = new Guid("b4bdc4d5-6bb5-4967-a929-982b1f35017f"),
                             Email = "user11@example.com",
                             Gender = 1,
                             Name = "User11",
-                            Password = "$2a$11$VCq7dtpX21E4.bK7mfRHUuc/YxYWX0JaF06wQozsWj8zRGYfWeTZi",
+                            Password = "$2a$11$BGYdr0zBIEoJXv/LvDZ/se/xMpnrs3Kb5ERqs.9yWME3Pu1whi91m",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("5155113f-466d-4f00-93b8-e75b6c8f7189"),
+                            Id = new Guid("2424580a-04f7-40d5-b12f-4dd7b6e88e95"),
                             Email = "user12@example.com",
                             Gender = 0,
                             Name = "User12",
-                            Password = "$2a$11$IVHp0G4vrsTZ5X099UbfcOOMDoX6olRiMnzy151zL9GEhEzT8J462",
+                            Password = "$2a$11$b70jptLamWT48/1cZcg7ruQ7zecxcuVKB.dUmVuPPngLq2Rjzqxjq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("b31e5d44-8ed3-479a-b6d6-59f632630ab0"),
+                            Id = new Guid("02dfa0f5-a524-404d-be67-6806eddf1ac9"),
                             Email = "user13@example.com",
                             Gender = 1,
                             Name = "User13",
-                            Password = "$2a$11$4QLwa1TbF.0qhjPz8bhu6uW.SxuggEzNqlf06amze2I2SOmjud.CC",
+                            Password = "$2a$11$wuEydp8VVynrgYegmpJTh.XHXOWnHSeqUsGLY8zBaUkOzenmloEZ6",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("33b3d7ed-c116-4351-ad2e-ae1b6bc1cd95"),
+                            Id = new Guid("02fa75f3-538c-4ac7-a783-793617acb817"),
                             Email = "user14@example.com",
                             Gender = 0,
                             Name = "User14",
-                            Password = "$2a$11$pfy7R1n0/zgXY44nptpxve5Vde9RMZ2jLOnxfK/iQ8nMtjL0d1bkO",
+                            Password = "$2a$11$4YVkVIP4sw26RXY1jwAj4OTfw/JhDEyeiiq71ftCDhYYUwUiFzV8K",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("9ac52ade-a530-4447-83c4-dbf15d463f17"),
+                            Id = new Guid("f8fb2f43-3db5-4d24-8d91-aec910d19da5"),
                             Email = "user15@example.com",
                             Gender = 1,
                             Name = "User15",
-                            Password = "$2a$11$Z5CfPgDd2fXFDdoC.OOlpuxaKYCE2Qwu33LZJivBJv6HNVOe9H5ii",
+                            Password = "$2a$11$/kNHC7pp/dX5qS0BESTbn.NEUvsbuwrYuXYguH0oLfxDWd0Awbeau",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("0641a5ea-d749-4991-a982-330252578fae"),
+                            Id = new Guid("390c981b-0a74-4bd4-a4b5-4e5b44cbde2e"),
                             Email = "user16@example.com",
                             Gender = 0,
                             Name = "User16",
-                            Password = "$2a$11$n0JtkeCcHU5/NZiC2rNzVeqXmycz8t7cHQC3XKxjUqi9rhDNjMViG",
+                            Password = "$2a$11$vHNO0J8d7XrZdu.e7bMeTO2I24akSwAmFP/ZlBZpFxlxeaczlQ50.",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("8533808b-75cb-448c-89a4-666b476c9f2a"),
+                            Id = new Guid("b09027c5-8bee-4d4c-ba58-f5ac8a06eb3d"),
                             Email = "user17@example.com",
                             Gender = 1,
                             Name = "User17",
-                            Password = "$2a$11$2/9NuPOyZ9J8GRhxs5IsrOMbyosIe8l7sclKZ2dDeqRtOZc93J3Iy",
+                            Password = "$2a$11$2P.EOCXjUgwrNaUGAo7Kn.9LXPfjfuOgETrFsX0cm1XSbEcQCP/cK",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("8abb5551-1228-4c96-9300-949f91ec7b33"),
+                            Id = new Guid("9e53c14f-e443-4a2a-993f-2c74ac0d1787"),
                             Email = "user18@example.com",
                             Gender = 0,
                             Name = "User18",
-                            Password = "$2a$11$hvWsty47B//K6sOXRP97FODPZf3IXu2DmcNh0Fw1PwxIjBF0beQSq",
+                            Password = "$2a$11$YXS8BG.gXDda.2cvDbD2SegvdFDNzdfBnhwt9yyOtwpMU4/65E4aK",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("e54eeb7c-ba03-4123-bdb8-3c2bc61211b5"),
+                            Id = new Guid("600f6c61-3a7c-4806-ac76-a3dba81b4042"),
                             Email = "user19@example.com",
                             Gender = 1,
                             Name = "User19",
-                            Password = "$2a$11$aXERz8/JIWMrqJLap5w7curZFbK3lIQPJN36Ns/1sl03.qWhAJuOa",
+                            Password = "$2a$11$Gj4qU/iSdI7KMtkTyWsgHOqAMqHwweBgcjdgAoN1HVfuYJ1ssafAO",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("e77e4678-de32-42bf-bce4-097956c07c8c"),
+                            Id = new Guid("355633b6-8523-4f06-b256-130894ee0c65"),
                             Email = "user20@example.com",
                             Gender = 0,
                             Name = "User20",
-                            Password = "$2a$11$cKGZBbmEWjtMIJzkehYwzOd4Xl78J2HkeobOpJ5/dvPLrfhlJcLeC",
+                            Password = "$2a$11$bzeNAGr.MZWo8YLcMKgCReAp5Z/.OCy0z3NU2Tk5imSwFxSR8nixm",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("2563db6f-4c4e-4031-b41a-850a1b243181"),
+                            Id = new Guid("ef59e76b-2b3f-4b30-9458-c891e3c85cd5"),
                             Email = "user21@example.com",
                             Gender = 1,
                             Name = "User21",
-                            Password = "$2a$11$wxfeUo7Hd5SW2J3.CfqVGuEtNqfr9PlEu.8eQ/1Qct9ao6ohqs9Ea",
+                            Password = "$2a$11$ljhSwsOvolot7AqOwKRgPubP.FJoVyaGkyEKCAUNBM7Np.rMH9LuS",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("7491c501-478a-4aeb-ae00-17ac630e1314"),
+                            Id = new Guid("268707b3-4f7c-4861-8d96-6639a50b369d"),
                             Email = "user22@example.com",
                             Gender = 0,
                             Name = "User22",
-                            Password = "$2a$11$67Nxxk0rvt6f8F5HXlElAuikDQPQdfPeEbaMnTunRxqrMcZqQfvdS",
+                            Password = "$2a$11$F4gt.qr7/vlLcrfTdOwipOVPoKr62P3el.7UclBuG3MXoDkyG.XqC",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("5144ae96-d3bb-4199-a7a0-342774f16bf6"),
+                            Id = new Guid("fdff63bf-5196-4122-a759-a9d967ed8674"),
                             Email = "user23@example.com",
                             Gender = 1,
                             Name = "User23",
-                            Password = "$2a$11$Tp37Uf7Ebl7OJpaChZGMoeq2.dsZtx7FpltjJ6caJiC3kfeqgmVd6",
+                            Password = "$2a$11$owDrYJkTCLKCCX9QnJGFoePTvh7SCb06bY.FBBYCFQWyDt4BmSIu6",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("66d1eafb-4e91-4d1b-a102-9ccbcba4253a"),
+                            Id = new Guid("42232f21-4eb2-4748-92a6-96bb3fa816db"),
                             Email = "user24@example.com",
                             Gender = 0,
                             Name = "User24",
-                            Password = "$2a$11$JXp3spXk3EcRIiQvkz21FOQWDFGVrWxnE/WqZdn6XSaEQZmSpYVwC",
+                            Password = "$2a$11$1uFd6wDccmNUhkcRb4E7kuyV2MYsvt3O31SDtACx3DclK.f1zygV.",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("b9f39656-a26d-45a3-8a09-ee9c162bc11d"),
+                            Id = new Guid("22cc553a-9dd9-4c6c-a5fe-996a13ce1e20"),
                             Email = "user25@example.com",
                             Gender = 1,
                             Name = "User25",
-                            Password = "$2a$11$hrhnUhNY3WIyxORL20xeLOxzva99cveQk9OTO3kvb3kVtG3wciFSS",
+                            Password = "$2a$11$jRRhLZ8CnL5J2NYE1szoTOD7rQobJRaRmqvyWfd8UWErNaXXFespS",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("62d062ea-4100-4138-bd9f-6e7a1fcf9dd8"),
+                            Id = new Guid("86c08a8c-2f94-4f3d-a666-2d4107af3aa2"),
                             Email = "user26@example.com",
                             Gender = 0,
                             Name = "User26",
-                            Password = "$2a$11$/tOid/Zg3hPWKjpsAPgNGemVfsdggWT36gvIlLaj2kwaQmScN2GEO",
+                            Password = "$2a$11$E8UA.ekQwrLbXz/C4RlT/.AmPHki4K6Gy3YihDq8UtJ4U5Lwp4pFu",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("68aa8b00-622e-44fc-9f98-25b3c9c23f34"),
+                            Id = new Guid("cb7073ba-8d14-4d51-946b-8429d6b1e8f8"),
                             Email = "user27@example.com",
                             Gender = 1,
                             Name = "User27",
-                            Password = "$2a$11$xoRoWc1in0GUP1wdUsD2BOxrUd9rYp4ta1yP8QFkSMohFiRB4txMO",
+                            Password = "$2a$11$ZN7O1S2dkY0SippqWkh/aOHdxt18/sYneSYXGRfVJp2QxGTUqLW9K",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("c6d64e0a-e373-437f-8fcd-0d83228f7c44"),
+                            Id = new Guid("24aa9ade-ac24-44e0-97e3-ec50df7c3a7d"),
                             Email = "user28@example.com",
                             Gender = 0,
                             Name = "User28",
-                            Password = "$2a$11$LmnkravZIwwr6VBvHLKW/ODbxCY..br.nXTW5IDxeFkhfcQK8M8Nu",
+                            Password = "$2a$11$va5u9RfTilFcbiVrUVpR1eBjlS.1cnlExzQekniEoUF40q1DRyOGK",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("480bf0d9-39d6-4fd3-9b1e-ad138aeb3483"),
+                            Id = new Guid("5bda4ff9-b04e-4a8a-bf73-0a16c52dfa77"),
                             Email = "user29@example.com",
                             Gender = 1,
                             Name = "User29",
-                            Password = "$2a$11$FziTeKe4hlqFHcakJwnNf.X.2sjeBTvJVUckUAymQ1qIyWgW8dhoe",
+                            Password = "$2a$11$zK1ZwmVan5LKVL2Yliisi.RhvKMJku62H6v2yN/WRaXLKZm54kvg6",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("3f0f7602-7055-4a5d-8aa7-a3d25c7d6ede"),
+                            Id = new Guid("f7756e59-a187-4578-b18b-281f02a2d399"),
                             Email = "user30@example.com",
                             Gender = 0,
                             Name = "User30",
-                            Password = "$2a$11$I4hcWCM1tBBl5dychhrs6eziD7tiUbzPh6p5iu6D1vIfVpkGYfz0q",
+                            Password = "$2a$11$5vrPOVhdFAQbDK2oNHTVSOHm8S2Xg/jQU51KF691bcGMYTiSt1hWO",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("9d795ca6-def5-47ee-9a66-9605eabc97ca"),
+                            Id = new Guid("4ab9f12d-78a4-4805-b23c-c0093717a7b0"),
                             Email = "user31@example.com",
                             Gender = 1,
                             Name = "User31",
-                            Password = "$2a$11$yt69FGU/EPprfaMXSgclyOkP/9HBfpgQgLlb9GvZfKN70Lmb8b0te",
+                            Password = "$2a$11$n2qVlyy0xPoHSOqzro/5zumcuprbhAnaeudWbNzgQvJ2/CcYzlFWC",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("860c31a6-78c2-4886-941c-be174fd55a89"),
+                            Id = new Guid("25641c23-5c3b-4652-b189-18b158414d33"),
                             Email = "user32@example.com",
                             Gender = 0,
                             Name = "User32",
-                            Password = "$2a$11$94JP16VrKUbw/P4.yLleeupQFnE/5eRANtK34KAJhzd0LN6c/kpD6",
+                            Password = "$2a$11$he5LgIxNsLj48b7ly8Jh0uIBhUoLtZ27mnNN5kiwHrCYvH4T4Lm8q",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("21f9b2cf-b6ef-4d11-a0ba-818d26d7a006"),
+                            Id = new Guid("3277a1f4-5663-4fdf-8a76-359622a37e55"),
                             Email = "user33@example.com",
                             Gender = 1,
                             Name = "User33",
-                            Password = "$2a$11$BhSw19mPF9KurX.etIdjc.TZAr9TOhhp6Rx5aAaSaC.VXofiozfxe",
+                            Password = "$2a$11$o6kYqgLpMjU3h6uXN1i.kevReHLT/rsLu16tZmhAnmahiUuldOz4.",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("883f74e0-5e1a-4a79-861a-ecb314a07fba"),
+                            Id = new Guid("da942392-6f52-4062-8873-650cfb1ad111"),
                             Email = "user34@example.com",
                             Gender = 0,
                             Name = "User34",
-                            Password = "$2a$11$ui3CKXT6OF0zN6UTli8JbOFrxPbReEbKTGxI99UfriGFr8EikNoPC",
+                            Password = "$2a$11$MF4aU/bkwKRFpDh0BvjytukK54X2FqINltZqxHp.MumHPosQfF5em",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("2c4dd255-2a45-45f8-ae1f-fc8851d3782a"),
+                            Id = new Guid("554ae3de-6629-4ef5-bf1b-b5da1e326a1a"),
                             Email = "user35@example.com",
                             Gender = 1,
                             Name = "User35",
-                            Password = "$2a$11$mavYOZ0bc4TU3OX/PZWfTuOhMTMENPNFAQloTGlD8KhAxRKmEHvDG",
+                            Password = "$2a$11$80sKc0gU6VXvJp.uVe1jfOWDQ40JtrhGOUfQL2/.veMx2Jnqgh5F6",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("9f33c46b-4abd-4fd9-bc83-7b7f9f74c491"),
+                            Id = new Guid("8fb0564b-92c2-47a2-a311-a90e91e96983"),
                             Email = "user36@example.com",
                             Gender = 0,
                             Name = "User36",
-                            Password = "$2a$11$9p4GGX15DvDZUzHe8z612eFcxKOXhZf9tSs2N33SDOtDcAu7sFnwi",
+                            Password = "$2a$11$d2hM77SGYCfw0i2XB1r3l.UNO3MpASuotrIvrxQoPawDeJUmmFGgu",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("7263f1f1-a731-40e0-a94a-e96eab6424a6"),
+                            Id = new Guid("dc9bceba-e1dd-434f-b358-af47a26e73be"),
                             Email = "user37@example.com",
                             Gender = 1,
                             Name = "User37",
-                            Password = "$2a$11$rOZ9U8YAEtrA2Fxy3QCbSe9KPTCXy8BLs8NqtS71WuLMaYenhg3XC",
+                            Password = "$2a$11$.Dt2xg8enaKz9X4LujaWBulRJ3XTZxwsDeaqTNhhKLiB3BA3Iruma",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("8815dd6f-0311-4e85-b233-985960745df6"),
+                            Id = new Guid("7c57490e-6352-451e-a44d-a7dd75367ff6"),
                             Email = "user38@example.com",
                             Gender = 0,
                             Name = "User38",
-                            Password = "$2a$11$ImQouVnJIQlu7saiYYlz3eoiiKhi8yD9qKPtoP8AV5o9vQaJvr.ym",
+                            Password = "$2a$11$HUFz7pDKsEvHBxpyNtVKKe2XDa5Ng9U6t3JFU4UG2ljZrvGZoxUYW",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("2215e8fb-a6f5-4b37-8b50-7a6b02d581d6"),
+                            Id = new Guid("8dfc3516-79d4-4960-bc57-ff7431b5bb8f"),
                             Email = "user39@example.com",
                             Gender = 1,
                             Name = "User39",
-                            Password = "$2a$11$w/Ho44C9sA/bCsacEmOqpuTQiBkeLR/8zGhpOidskM7KpuBYNAvdO",
+                            Password = "$2a$11$sxMn5i0VjYX5Z/i//kZ4vunLKFPJcrAfMCvpVcYokbIWJIn9oEkVO",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("8b6b979d-a208-4c2e-8815-caa546dee237"),
+                            Id = new Guid("4b29a881-301b-4162-9dbe-9a87448484f5"),
                             Email = "user40@example.com",
                             Gender = 0,
                             Name = "User40",
-                            Password = "$2a$11$kZUouO5vY1eTV/InpZv1y.IIACuG9nTZqqum7Xc3jBVkUz9y4FTZa",
+                            Password = "$2a$11$4.OfaKzWz5nYxp.eSHYy3OvbtXBOf8FFmyopSM.Ak/rDuQ1nrQkCq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("49a9aae9-2b91-4812-a7d2-c96d7a2cb973"),
+                            Id = new Guid("c5c24958-cb8e-49ac-9eab-d06d0e26535c"),
                             Email = "user41@example.com",
                             Gender = 1,
                             Name = "User41",
-                            Password = "$2a$11$wCbgMm2IpanoP3kT9owH/OrhflsGEtADFmjePxoNhMI0VdYDBRg1W",
+                            Password = "$2a$11$.V67N8prF9wogyCJIRZbZ.Jec.bbfZQhOLFF/32RVqasFylJv02GG",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("fa737043-6a38-4793-a8b8-de4fa410862a"),
+                            Id = new Guid("6e645df8-7d67-4968-aba1-59748723c2f6"),
                             Email = "user42@example.com",
                             Gender = 0,
                             Name = "User42",
-                            Password = "$2a$11$hWYkzXskCyrqRQbIVFi5U.uHuWBt2x7.XS/NjaGUM4mH8LcZwm7yW",
+                            Password = "$2a$11$GKdTM/GGc4s/Y3eH9.D7F.FvHwlcIrboxf2f4Z/4cOVyexCFARGjW",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("cc196503-7307-4280-a8f7-42bbca4f8c24"),
+                            Id = new Guid("31c8c5a0-22c6-4454-a923-f8084662b039"),
                             Email = "user43@example.com",
                             Gender = 1,
                             Name = "User43",
-                            Password = "$2a$11$/ohM4EEvESWrJp0WHIGkyeJLOS5vQmtVetb/9zPNfai6fXwzDbHPG",
+                            Password = "$2a$11$Phf/Gi1px8nMrz0hotopN.AtGj2uEqwIi375xSHBVHHAZv0TYWAZ.",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("b01b7f37-433b-4529-94d0-3644ef9724e9"),
+                            Id = new Guid("25021999-8ede-460a-8e9d-3cd62378f78f"),
                             Email = "user44@example.com",
                             Gender = 0,
                             Name = "User44",
-                            Password = "$2a$11$JmgohDuadLsdISbhc//Sgu4End4mpIEPkHWrySDIq6Y7oHQGIROGK",
+                            Password = "$2a$11$W66hRBKu1gJx5QgXYtHI2OcQz8isMEINWE5DKBSAbp44jP/y74S/C",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("6bbdefc6-358d-4a57-9fea-4ac4d31cf0df"),
+                            Id = new Guid("d676416d-6001-4f2a-baf9-67f15095c951"),
                             Email = "user45@example.com",
                             Gender = 1,
                             Name = "User45",
-                            Password = "$2a$11$u/X4fj3mZF0ieAG125QLs.06p61Y2UUb4q5CI2SVr6HHQZHoijlR2",
+                            Password = "$2a$11$00QycRFcqjVCJwoPVrc6Cesx3zqV/eVnd0aM9tmnm97S82lQm1HQK",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("8c8d2905-6abf-456e-9044-81c184b4d223"),
+                            Id = new Guid("2c991324-71d9-4558-b3f9-09968456b00b"),
                             Email = "user46@example.com",
                             Gender = 0,
                             Name = "User46",
-                            Password = "$2a$11$6SrH1UZc/lA3BNi5NjM7DuAx62nZhN61bsh5OwzX1kQnzJbPpeIBS",
+                            Password = "$2a$11$k7je6zq3cNHpupCmM70NjOcBDoP4NstdoVIEIYpkylcGGNXdxUZ.O",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("740a0023-5020-430b-abf7-39b8b24a398e"),
+                            Id = new Guid("1e4826ae-0f6c-42c8-83ac-0df7af0700c0"),
                             Email = "user47@example.com",
                             Gender = 1,
                             Name = "User47",
-                            Password = "$2a$11$npYQwB/9ZwA3mEInFdb9OO0FoTbjInIhTeS9hix8vgf2W4HMWzvoS",
+                            Password = "$2a$11$JQUQG/7FrDSL5V1LXNwZGe44q1vXkq2JUsqJxBZk4kHx/Uxea2wSG",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("86a09aca-ead3-4708-916e-38f6f293236d"),
+                            Id = new Guid("fc00841d-1b5e-449d-a098-4d79fabe3a98"),
                             Email = "user48@example.com",
                             Gender = 0,
                             Name = "User48",
-                            Password = "$2a$11$TMWkOCEWe5QXinRPLtDMmOyx1duGnff.t9LJd/PKIXjUqkVSQBj.u",
+                            Password = "$2a$11$YFEwQ/XL1.qAK3EAVn9T2.NZ3Href5eCQkUpNfmukm7r8AFdGF8Jq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("28223e42-61a3-4d19-a48a-46296a43de79"),
+                            Id = new Guid("a541de40-12ec-4dd1-bce7-65b640ea6e49"),
                             Email = "user49@example.com",
                             Gender = 1,
                             Name = "User49",
-                            Password = "$2a$11$95dOPgjOOqLek2NDVK.3ceefLIFNKMyhfu6Gbo8z6QxCXII/Q6e6C",
+                            Password = "$2a$11$KWgRBnT3o9IJSO9xeNNzsO8ND30g8PsPuQiEY4YC9s.Yk3FSfqMD6",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("9e5e4896-b923-4cd9-841c-77fa1fe6537a"),
+                            Id = new Guid("352b2986-71ed-44d5-979d-87de83aabcc2"),
                             Email = "user50@example.com",
                             Gender = 0,
                             Name = "User50",
-                            Password = "$2a$11$tdQAOI5SqIcefjlTNwawnuvgMVd2KKcDa0ttDXgNPd0sGE9AXa3.C",
+                            Password = "$2a$11$m9vkq0ENfkDaTp/WdTWTIuobf3yvsYIeDXJN3RuchfGbud.5ATzRK",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("1f50e98b-1acd-432c-8d6c-49e5f94ec654"),
+                            Id = new Guid("b7366270-77e0-4b14-bd44-11215cdd568f"),
                             Email = "user51@example.com",
                             Gender = 1,
                             Name = "User51",
-                            Password = "$2a$11$TmKHi6zc.HoyXs6p0TcRFuQYqyEQvhzx2LKu0xoNT52KT4ggCN4me",
+                            Password = "$2a$11$HtNwbJatUVZ1FeGYuaMAuer/4KBV0ICca7rm3b8O2KSCgsIf.Qm5y",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("78e58e86-5e6c-4c00-add1-739b665768cc"),
+                            Id = new Guid("cbdac6c7-9268-4cf9-9528-a9ac3e31ba6e"),
                             Email = "user52@example.com",
                             Gender = 0,
                             Name = "User52",
-                            Password = "$2a$11$pe8/nM1f2YeIHttNzRgjcubxAO8kQttRvQvS3YusfqPj57XiRW/tC",
+                            Password = "$2a$11$eRzxU6CDD37s/ZF4P4cyf..9rdNgIWwbG5GfdMzvkMZ7F4xpP4ftC",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("84c17fb7-3997-4eb9-bcbe-02a606f6ea56"),
+                            Id = new Guid("1cc6be3a-9978-4152-9718-366ba8471445"),
                             Email = "user53@example.com",
                             Gender = 1,
                             Name = "User53",
-                            Password = "$2a$11$VGK0o4aJ4R.s7fmilqKSQexnty7/3xyfvUhBryL2I.71B7fdWVNGm",
+                            Password = "$2a$11$6Q9nTL2/sZNuMSd.9MDXMOktizQYqkheaCwuuJcOAqhWRodOLxjfC",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("93d265cd-a39f-4cce-b97f-ed5b031eee35"),
+                            Id = new Guid("31a91bbf-ca65-459e-a20f-b7f6dbd67b83"),
                             Email = "user54@example.com",
                             Gender = 0,
                             Name = "User54",
-                            Password = "$2a$11$xnSUN1iv..rpxp25.GVRre.Rb5XcDt0E9VQ6mTDiq/0Bb1E8fjFse",
+                            Password = "$2a$11$GIHb9JUn10VY8DTSlz177uErza76awGEVHOrY32NYXbLPZkA5.0qy",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("2e89e813-5a6a-41c3-8893-190a31ef8bd5"),
+                            Id = new Guid("d6b610bc-1713-4281-aa07-eab7df370037"),
                             Email = "user55@example.com",
                             Gender = 1,
                             Name = "User55",
-                            Password = "$2a$11$mcDCKzJZa2Xbhi0hthnPSeImX1bqyfQweLpmWqfEIoHkpcsvGMERC",
+                            Password = "$2a$11$9zApwwPABnbc/etx8T9OjeslgSQ.18iED1YXEdWsaH9J5SiwbCrIe",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("2d3ec0d3-130b-4bd7-8202-f57387412d69"),
+                            Id = new Guid("d844ad1a-67a6-4a5b-bdf2-30887afbf7c1"),
                             Email = "user56@example.com",
                             Gender = 0,
                             Name = "User56",
-                            Password = "$2a$11$a11Ceo73UjI0V4Nensy2ROorJljVMnQ.2.92u9gbRNwQdXQm36.oO",
+                            Password = "$2a$11$W42oqY2JVjCeO3aDc/fWKeD4sNuWJDUG2xRm4qF6Eg2vIZJeHLWFa",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("145b1d2f-1da3-4bec-a978-539a332c1649"),
+                            Id = new Guid("c2a56740-50b9-4933-b93c-f05c5fed3839"),
                             Email = "user57@example.com",
                             Gender = 1,
                             Name = "User57",
-                            Password = "$2a$11$CfxXkWoU.jGEuJINiY/1ze57EY1kBRlIjhk.e7Gi2p1.iHi/xPWVS",
+                            Password = "$2a$11$MkCv.nKHGI8pSe0DpJsAGeZiKpBm.ech414h6tbQt3VTVtxGC/4q2",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("1e67b20a-c523-4178-bdf5-16d452781b27"),
+                            Id = new Guid("451fbeca-e948-47e3-8eb5-cc051f9d1e2a"),
                             Email = "user58@example.com",
                             Gender = 0,
                             Name = "User58",
-                            Password = "$2a$11$JobeA36CKGL/TUk4DGQmd.OOuPetG3RgPaZnRSmBrk4rCRpvLQOkW",
+                            Password = "$2a$11$dacdun9X7GulaVrsX7hl9.mAxd7FLlv1mdXn3yP/p6a5ZIWrKSaHW",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("2471054b-a45e-44fd-86d9-2af2f6345793"),
+                            Id = new Guid("6847d61d-71a3-48c0-8ce3-1bfa9f2e329a"),
                             Email = "user59@example.com",
                             Gender = 1,
                             Name = "User59",
-                            Password = "$2a$11$eBqhDvbOscBvSmZC2jiUj.mHc8nELteGhNo5fchdp3B3awlGZ4Dxu",
+                            Password = "$2a$11$eL8YQqJOCzAfTBJKkfy.FeQSRFshAIXTBTNOMjL90JyLI7r5711SG",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("0c77ee4c-b8d6-454e-978e-be2257dd2e3c"),
+                            Id = new Guid("62b928ed-4d68-447f-ab20-515114ab7583"),
                             Email = "user60@example.com",
                             Gender = 0,
                             Name = "User60",
-                            Password = "$2a$11$rzsazdFKBIsrSTeTZNcfR.g1IuMO8zNmXO9y2DCpiF.HryWsc66zW",
+                            Password = "$2a$11$5hW9b0QCevLZtY/vgVhfX.gHTzEWj3DX1vF4bVszg62SDPg1Cvueu",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("3dfce0b1-7d61-47ff-9053-1b18a3a9a69a"),
+                            Id = new Guid("f2534357-b043-4b85-8c86-10a49de4a701"),
                             Email = "user61@example.com",
                             Gender = 1,
                             Name = "User61",
-                            Password = "$2a$11$E8tpArTCNbajz/6JFBdnae9k9Cs3LrZXYRk9ycPTXuaDBqY0jDpnG",
+                            Password = "$2a$11$.7xfcTkXTeoo9DnGZ3if3usH4wX88VszVMTDNjca.zz0IJQXb54lu",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("0f2c23ef-8e11-4f85-85ba-78ccd150d9bb"),
+                            Id = new Guid("51e7aeb1-4d81-46b0-afbc-40edceaa6975"),
                             Email = "user62@example.com",
                             Gender = 0,
                             Name = "User62",
-                            Password = "$2a$11$hMI1tkyLgyMxGKiMmVOro.jGLn1ZNoRmopZnCqEO979DhOZm6XU3m",
+                            Password = "$2a$11$.4WMoZ1DmtYdKw8j6pstIenosRx6ISu7hYvbNhFEicQwcVcRX9MQC",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("4506f837-d214-48bb-8a71-5faea5494c83"),
+                            Id = new Guid("6e9c01f8-565f-480b-a40d-0fe618fd5e1c"),
                             Email = "user63@example.com",
                             Gender = 1,
                             Name = "User63",
-                            Password = "$2a$11$4Q0irolbqBO5qiABwQh8qOR9j8QUGxPITS/RJPVrRHjXCTelvTRd6",
+                            Password = "$2a$11$TWItErZRiojYopmN8gqcBe0fNn3D9LTK/.d9Towee/GV/1yHGPD6S",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("a5966ef9-31ea-4e17-b5f3-bfcc2920297d"),
+                            Id = new Guid("80f4f8e1-165f-4daa-b423-9c61ef4906e4"),
                             Email = "user64@example.com",
                             Gender = 0,
                             Name = "User64",
-                            Password = "$2a$11$mB0gfcFZawwU1BZuFqmLQ.vWeACTs15DSn.7N7FOE2IB2vVienPJ2",
+                            Password = "$2a$11$zdHl39Rhd6tx/iyCMuU.1eb0/CNhcDJU1hZuc7mlZ.rVNXDuGOf2C",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("5312113a-ce17-476f-bf87-5e3a861027c2"),
+                            Id = new Guid("da1179d6-6753-4df0-83a1-6b8b5adbb713"),
                             Email = "user65@example.com",
                             Gender = 1,
                             Name = "User65",
-                            Password = "$2a$11$vICdYXZh4WJ.ncHXK8E3Oeckh1Ik2UoP4IyA4XKZuo0JaO5B7Szdu",
+                            Password = "$2a$11$KRMVb6oYMsq/m/hWjJ4eMeIAqfG1sNexNJP3PAmxTi1CSNmxgd71W",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("7897a73e-7546-498d-bde6-4f0a8abdd24d"),
+                            Id = new Guid("7cd57e07-b554-4ee4-8402-8ef277f91f4c"),
                             Email = "user66@example.com",
                             Gender = 0,
                             Name = "User66",
-                            Password = "$2a$11$W1hrW3dKYFeNQa6F13.rJuCU5lzkDFTk356D4qe4ClpYZ7pJNOnge",
+                            Password = "$2a$11$cGsGFum0FcBCTxT0QA31leJOu/4s7XMaqrV12UltW5hN303AKa1SO",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("e4100d6d-dd3a-4a08-9206-fba2e9e9e536"),
+                            Id = new Guid("661820ee-d643-4586-be72-53422b52e6c9"),
                             Email = "user67@example.com",
                             Gender = 1,
                             Name = "User67",
-                            Password = "$2a$11$wo1FVhjefK2dGRXhd/QvS.NDiBnj4F6e30HA/8OWfnvCXN4OPLUcm",
+                            Password = "$2a$11$3ZrWX7yeMGfSXwyZrpAINu0mV3t6lNTdDJ3CsyA0jSepj3rDMyOYu",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("bc16147c-3863-483f-ab18-cfbdb91166d8"),
+                            Id = new Guid("18303189-52c6-4e73-b206-0f2211be3492"),
                             Email = "user68@example.com",
                             Gender = 0,
                             Name = "User68",
-                            Password = "$2a$11$ryWx9oRJ18x5GDzTpDcyN.i08.dlht7g.vpMETzef9cmWuI/jcsw6",
+                            Password = "$2a$11$UCz5xGqu.lmjMIJORYAL3eXbuSIfc4l5fAaVhKXh8CBbCS6oGe7/e",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("a521b155-dc28-4c92-bf3d-1ce2b745f892"),
+                            Id = new Guid("5bec4830-e709-4f11-be43-fc3de4f86d5f"),
                             Email = "user69@example.com",
                             Gender = 1,
                             Name = "User69",
-                            Password = "$2a$11$l5rn/fhHZFvnEI5gJyIh3Ob7rdIJgwUm/RJSQvd4FZKCsvQXVBdTG",
+                            Password = "$2a$11$KIXzAZdDIvtxJNv0GJ6kPO0.C/elZcAzedaQGr8XhklFfEmmqaXR2",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("3e546a14-ccb5-4e75-92f5-c1f3614953a5"),
+                            Id = new Guid("3015ea6d-aa37-414c-a5d5-2f90a509b717"),
                             Email = "user70@example.com",
                             Gender = 0,
                             Name = "User70",
-                            Password = "$2a$11$PCri6GqAC6xTglnlbipUBez1Z3RL7pvFMAOc0rvryjYmb2bhyB5Fa",
+                            Password = "$2a$11$dDLtxrcscCGuttAHO/hcoOFFY0I.KsaNZkkf6rwHzmUyssd4jrq2m",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("ce52fca6-72d1-4d97-a529-401a09648b9d"),
+                            Id = new Guid("04afe721-cc98-4a17-9b71-03ce98215e2f"),
                             Email = "user71@example.com",
                             Gender = 1,
                             Name = "User71",
-                            Password = "$2a$11$ceAxm3mZZOwGQQOdk05jKOsy60GjiA9VPRhL5t/VboF1h1YYiso5C",
+                            Password = "$2a$11$DxA4YRdirnnBuWwQ6ddcpumDJCxxzYn3VLfWjzqXmUG4jfc5vYh/6",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("8a6ee593-0716-4ecb-96a5-ecfe1ea596c9"),
+                            Id = new Guid("5e107b93-1d6e-4888-ad44-eae6570bd9b6"),
                             Email = "user72@example.com",
                             Gender = 0,
                             Name = "User72",
-                            Password = "$2a$11$rif3F0uXzkF3i8yKT838P.eVUz.Q8LQG2OJ5FGCD.Tm8G8Zq7OQOa",
+                            Password = "$2a$11$2PKCYkQFzDI.ynvCokTUSeg4N.dCTA7.foWodjIh2XN4ET4yBDIzG",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("b30cbdab-d85f-441f-8859-e9588cd6527f"),
+                            Id = new Guid("a3a49cff-1fe1-4e5d-b4ad-2f044e5c496c"),
                             Email = "user73@example.com",
                             Gender = 1,
                             Name = "User73",
-                            Password = "$2a$11$UfE2i47KsuRnXvuuJvj7m.ln8Fg6hLx4LeTm6SngEvgejf.AI8vSW",
+                            Password = "$2a$11$O7TzA1PDR0220/9DAWIDte9Y9k/0a6UyWzZqUDYTKqdBksBAfpqAy",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("8554f8f0-8c01-4ea7-9982-d9696e59f5d7"),
+                            Id = new Guid("1165e693-0e40-48f1-bb2b-c1f2e2837ff1"),
                             Email = "user74@example.com",
                             Gender = 0,
                             Name = "User74",
-                            Password = "$2a$11$mYU/M.Mj4i05Xs5/HVyByuLoi5N1oviXU5EutuBhMTN.J5GAR8AEe",
+                            Password = "$2a$11$kLPeWs3ANAM7V/xhfFnL4OZkF7HO5t7gnbDDcyH9/3cC9kLiDvZ..",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("0abe5794-e3d6-4950-a75e-3d83ed9f022b"),
+                            Id = new Guid("95ead1e6-dd25-4211-9379-c0913c54ef96"),
                             Email = "user75@example.com",
                             Gender = 1,
                             Name = "User75",
-                            Password = "$2a$11$eSY9E9KX6m.laUW9UglyHOfcKNUvuO5eVirpZxUVACOFe48YZQmQG",
+                            Password = "$2a$11$JW8DKT23MsPR4GSgse8YauZ/vGi0TE7YtI1CP4LASKEqBqNmZSl4y",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("b54be218-f3ed-44f0-a88c-8e3362a2f9a1"),
+                            Id = new Guid("f3270699-8563-400e-87c1-bcf7b87a1ad3"),
                             Email = "user76@example.com",
                             Gender = 0,
                             Name = "User76",
-                            Password = "$2a$11$vRDvVTq1xaSz/aKKWmsDq.FaPt2dceFFgFxTLvnXjAVVL8qQR6Nyy",
+                            Password = "$2a$11$9BwjYo/W58bTf9xSsr/SMOmK.F2GOIPnpnhqH/crUIXqAR6TVRiQm",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("30e1d0f3-ccae-4785-ae51-52e6c994aacd"),
+                            Id = new Guid("743c7a56-cf2b-4364-921a-c0e5f3ea4f69"),
                             Email = "user77@example.com",
                             Gender = 1,
                             Name = "User77",
-                            Password = "$2a$11$J0/hCe1wpr40thQBicIUjec81Zh8NgW9bnWg8VoJMxh8MccZjZfca",
+                            Password = "$2a$11$UuKyonEfMkx799hwg7Dqwu06eOIevZTPEBfyitbfkIXzG1d7S/RaC",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("da2a8d35-b8b4-4679-b0fb-f33cfe973459"),
+                            Id = new Guid("5fabac1f-22ed-4b6d-86f0-ef2cd1925f71"),
                             Email = "user78@example.com",
                             Gender = 0,
                             Name = "User78",
-                            Password = "$2a$11$wNxR0KLHDRhIxnNSN4LjyeVi9sL1IHxdRlexbkBb.SErXsGOvxiJS",
+                            Password = "$2a$11$MC5DkBE7F5L30iL71.0ux.wC6sCejF2obpnF.accGUt7Ch5fn1Hye",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("eda6168b-6515-4b5f-a4ee-6af2a31312f9"),
+                            Id = new Guid("404184e4-5feb-4f80-b989-5ca81b2a9661"),
                             Email = "user79@example.com",
                             Gender = 1,
                             Name = "User79",
-                            Password = "$2a$11$bZMqREhCdjcEpdt8aa9BmupMBUW6N9BZTZln8z1GhAilbp/w/RqBK",
+                            Password = "$2a$11$axh6K9oeIwtYnUcqRU6UvOSsmH1mpWE1KZiuYiUR0sKWuZpYqn9wS",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("731fb401-e0cd-4aee-bf79-7a3fc0e5f69d"),
+                            Id = new Guid("94f48908-632d-42ac-bbfc-31aa1a4cc6b9"),
                             Email = "user80@example.com",
                             Gender = 0,
                             Name = "User80",
-                            Password = "$2a$11$VLvQWsIyYoAjUZmRFYr2DusVms.R1a2S8OCErTyMslpo.xWEfp5v.",
+                            Password = "$2a$11$mARTOL.oHriAStgGM.hoq.PnY/ifB8ujY.ifLQnPD1W.Y166.C.9a",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("f97b231c-31da-49a3-90eb-306bef8c72c1"),
+                            Id = new Guid("d7524c60-8aeb-468c-8102-07da9808a9f9"),
                             Email = "user81@example.com",
                             Gender = 1,
                             Name = "User81",
-                            Password = "$2a$11$gslnJKCVLQPh0D876E1ZouMmi39H4ul115Qy.yVCn.Vyy8zhSHfj6",
+                            Password = "$2a$11$Quq4F.oPraa2IR.PD/XEj.rTR6hHBkKI6ewEGhdiiivtpGe2DO06u",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("10148a74-60c6-4888-9f69-70a74945d394"),
+                            Id = new Guid("5aacb7e1-62f1-41b9-a799-1948f48cbdde"),
                             Email = "user82@example.com",
                             Gender = 0,
                             Name = "User82",
-                            Password = "$2a$11$zjXQ4nXdokomUgYrP6.jsuD1IBcq/YKfi7UBakHERWC9IJJn6.nIO",
+                            Password = "$2a$11$ESvHXC.0mVamrUYhDhxosu3SA2VCYdsU1H2NOXx/K4N4VRIB8jHju",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("4e37bbbb-642e-43f2-83bf-2e70402016a1"),
+                            Id = new Guid("131196fc-78bc-4d00-8e24-a52510697e1b"),
                             Email = "user83@example.com",
                             Gender = 1,
                             Name = "User83",
-                            Password = "$2a$11$wGuLASFkEnv7w7IpCuwHheX2Bf8MdMgaJ7i1WlJFDXx73raTq7ax6",
+                            Password = "$2a$11$bhKgOnYSxI0axlJ/mgpzUuM/XBjPb7Vl.nHib1DqgScVjediAalae",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("4efa3c17-9aed-4182-9bf6-1e9dce436d13"),
+                            Id = new Guid("b8095c10-7f45-4d4e-b8e4-b312c9388100"),
                             Email = "user84@example.com",
                             Gender = 0,
                             Name = "User84",
-                            Password = "$2a$11$/Mz3tnIzOh2adJdSceTIPu1TyG.F729JhjTV2Bk2U0sCYUs4BoJRm",
+                            Password = "$2a$11$C03KZ/iASG4l2DytWnT.dOkMTCG2vzuJhLwOlUIsRMxwa52oGJLLO",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("30912a18-6188-4bd7-b266-1bc5a56e0e06"),
+                            Id = new Guid("f4ac4af5-057b-438a-a8e4-7e67bc656837"),
                             Email = "user85@example.com",
                             Gender = 1,
                             Name = "User85",
-                            Password = "$2a$11$SdoZ2VYT6rBJn1B4PT/zV.HodVz2pfWc2/K/pt4dy/L.Q7FGMdQUC",
+                            Password = "$2a$11$hdpM8qjJhG.g0YrWRYFiAOZrUQDV803C4x30LMBQgnZJNNd6C1ELW",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("4c682287-c7d1-49bf-8baf-012590d02fff"),
+                            Id = new Guid("4ee18cea-acc7-4022-9be0-d2165584b1df"),
                             Email = "user86@example.com",
                             Gender = 0,
                             Name = "User86",
-                            Password = "$2a$11$uUnruLYJm.Cp3weSH7PKCuUrhSYV6H0MqWyH2tlkFO58Cf0yCNAse",
+                            Password = "$2a$11$Vq8M/.YN5zKjyrPTSbc6quoieCUA2s/iXfSuh1sRNISv9dhnTCRZq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("6f77416f-8c2e-455b-82dc-346345f1cc66"),
+                            Id = new Guid("5990c572-1953-4756-b082-02a602e92cb7"),
                             Email = "user87@example.com",
                             Gender = 1,
                             Name = "User87",
-                            Password = "$2a$11$SNml2GD2lrAqudnlvzZ9penSwNMP5vLUbrjBoVMJZFLNNsVmczj4u",
+                            Password = "$2a$11$R16GqJihg2UrOAT2yMlA3Og43ulzAb0gcp7ldwyrfmvvFqCHxzP06",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("2292e013-8588-4fac-9676-8582b686d631"),
+                            Id = new Guid("b09296ea-f679-49b7-bb3e-fd0dafee398b"),
                             Email = "user88@example.com",
                             Gender = 0,
                             Name = "User88",
-                            Password = "$2a$11$q5rOcKveMQOlN7ZIheGnpO9NmTe9XQmU16rLX10I9sdCXU8tSwjUS",
+                            Password = "$2a$11$Z2b4Dr6H2vVfBNzqMUnDKO0q0iu.CIEX/wHiAFiLIn55qXhozk8Ii",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("f75fccc3-92e9-4827-ae42-b6500c968337"),
+                            Id = new Guid("1952d507-7574-4ea8-af35-dda2d392078c"),
                             Email = "user89@example.com",
                             Gender = 1,
                             Name = "User89",
-                            Password = "$2a$11$5.WnMtrBwmmt/BvKePg56e.JPXhLzRL7UOkzRVqc0hpXizTtWTMMi",
+                            Password = "$2a$11$boID1rUevqiHqkxxwJIuqOdWQnYS5xp/6wnEFCDRVwD.jfx.xys.K",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("57ef23b1-38f3-41fb-9bf0-c5470eb193a1"),
+                            Id = new Guid("cef0842d-9599-4b17-9e02-ea090254bd1e"),
                             Email = "user90@example.com",
                             Gender = 0,
                             Name = "User90",
-                            Password = "$2a$11$TRG5poPl2L4HDaX3.PaZM.nlhw1nlt39v1IIV552l4dbFO02CUeae",
+                            Password = "$2a$11$pa1uywLb8IEEy0w3KWOdGe6LFr/IhobuXdrujoyyfYT/Yw/P133Se",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("a13bbaf6-66a3-4087-b7f4-9b5c7e472bb2"),
+                            Id = new Guid("4bef3b42-1470-4b05-9271-9ad09364ac6f"),
                             Email = "user91@example.com",
                             Gender = 1,
                             Name = "User91",
-                            Password = "$2a$11$HRZEqbcMVwUpI41XuNMRmOCU/atDcd.45ayv.31FHKlM2Mpx7kXSG",
+                            Password = "$2a$11$AigA3r3XIvm2ZCfmqPDPE..jlOR3fZXkTZasUAL39jHLIv0Wykf26",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("50d128ec-ca48-44f3-9248-0d00c4a8cb6c"),
+                            Id = new Guid("3e985afc-1963-4f46-9de6-fda64bbe6d2c"),
                             Email = "user92@example.com",
                             Gender = 0,
                             Name = "User92",
-                            Password = "$2a$11$DZuP8h579dQhcWkDj5e8SufQHvpuFCdiLFURdL48DI34ozcf3dBeG",
+                            Password = "$2a$11$9LhLU7dIP8wyxkFrqX2xIeFps7wppZz.VxwGS1HsZVqf8IV3zaCM6",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("f5a82c47-1dc2-41cd-9546-8c62b5b08045"),
+                            Id = new Guid("bb2a45f9-a07f-4739-9b20-4bbd46bae07b"),
                             Email = "user93@example.com",
                             Gender = 1,
                             Name = "User93",
-                            Password = "$2a$11$4Miv8PD71m6qJcnKB4cYc.xn.M1YH8wdR6nV2d8qY.KEXMEAjExd2",
+                            Password = "$2a$11$AoeXRBSL5mAv7bdKc3/hjuc9OmgRqaSp/.Ro32O/7.xwkDVxFW3Ka",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("e038d487-a20e-4b00-8777-3730b05a7c67"),
+                            Id = new Guid("c7f5132d-d706-423b-a3af-f90611469788"),
                             Email = "user94@example.com",
                             Gender = 0,
                             Name = "User94",
-                            Password = "$2a$11$IDcZRTYXJFDAwkxWTm5HmehVAHnrvwboWhy7BkdbMp6ByX95609kW",
+                            Password = "$2a$11$29V2f1Xg6XgMR424XBE/9eHlCJgRWITbQ0r7cDQKJPUiuw5vNK6Mq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("a329d081-971e-43aa-a388-9683e85697e6"),
+                            Id = new Guid("64be8ba5-604f-42ad-a339-0f1ee7142c93"),
                             Email = "user95@example.com",
                             Gender = 1,
                             Name = "User95",
-                            Password = "$2a$11$UZLqRd.ooY1JCY2PgA7CPOWufx8Z5vC/8dmBeK.ma.lFmtx4nrfX6",
+                            Password = "$2a$11$wmX2ZvW30PgGAFljePg2x.lYxXmGbmZhqE8spmPgUiWIdwqlusmpO",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("992f6210-4e0d-4578-b3c5-e09a02bbdaca"),
+                            Id = new Guid("3ce04e3a-186a-4bd6-8ffe-47f210341b25"),
                             Email = "user96@example.com",
                             Gender = 0,
                             Name = "User96",
-                            Password = "$2a$11$b.o.0rTon83i4/bvx11U9uIwM/qpYHCsKqrZQ0b58.p1u3wp6eWsC",
+                            Password = "$2a$11$xDaX6xvIT4jRTEGHeHA8b.auJYfToAzRvkgqZBL8htRWzeANBWqci",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("a957989e-226f-4bb8-afa2-94e6d40998e9"),
+                            Id = new Guid("dc3d38c0-a982-4635-94a5-61807d522432"),
                             Email = "user97@example.com",
                             Gender = 1,
                             Name = "User97",
-                            Password = "$2a$11$Sg9ZLabBcd.o.u6CA8PO6utOLC.CO4UiJZ4emIVOP/cr31BGg7gT6",
+                            Password = "$2a$11$h9Dw/Kd2EfE/WQ.E/OyR5.66cp.JFqIt88uAjKdmDHLkWr6O.Ny2W",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("0fb0c78d-3129-4405-b10f-739deea74b39"),
+                            Id = new Guid("6f384cfd-1a56-48a8-bb98-65fa0dbca5d6"),
                             Email = "user98@example.com",
                             Gender = 0,
                             Name = "User98",
-                            Password = "$2a$11$AzSLs7U/fN/FnQfr8N8Y1usenh9BDMsIa0oFSsKU0ZB5zQLLqrVH2",
+                            Password = "$2a$11$hjajZdBO3bhb7NRP1xV4F.TZ.8AiJ4TtHBi1WfdTenm.NNDUmNZBe",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("a41982b7-d58c-42ff-942b-31059e50140a"),
+                            Id = new Guid("c0bee675-885f-4ff8-9fe6-be7d18aa2538"),
                             Email = "user99@example.com",
                             Gender = 1,
                             Name = "User99",
-                            Password = "$2a$11$7yiRqkRxSghTrteZ71Qe0eStSv8kFIhFxCIYuNA3IX7IQwsx3PKdm",
+                            Password = "$2a$11$qJ48j/WFlojPJP6Ig0mZNuJT/EPugQK62TUPdhZMUyCupRyYs9Dsm",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("7e80f554-4aa0-48f7-84ed-64f60ebd8099"),
+                            Id = new Guid("c01ede05-beff-4344-b664-f22eba96a23e"),
                             Email = "user100@example.com",
                             Gender = 0,
                             Name = "User100",
-                            Password = "$2a$11$EpnjjI0N5k3puA6hn3Dk9epFPvOD5DPCGmb5jJke/PjXj6VFDR9Ge",
+                            Password = "$2a$11$kr.7A5lAyGa7JwvPW8uYle.1jSQHIE1ogmzsWpbRfhJvuE5PccQQq",
                             RoleId = new Guid("00000000-0000-0000-0000-000000000000")
                         });
                 });
@@ -1983,7 +1879,7 @@ namespace PassSystemTD.Migrations
                 {
                     b.HasOne("PassSystemTD.Entities.User", "User")
                         .WithOne("Role")
-                        .HasForeignKey("PassSystemTD.Entities.Role", "UserId")
+                        .HasForeignKey("PassSystemTD.Entities.Role", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

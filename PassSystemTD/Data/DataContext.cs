@@ -30,9 +30,7 @@ public class DataContext : DbContext
                 Gender = (Gender)(i % 2 == 0 ? Gender.Male : Gender.Female)
             });
 
-            roles.Add(new Role
-            (userId, i % 100 == 0, i % 3 == 0,i % 5 == 0, i % 7 == 0
-            ));
+            roles.Add(new Role(userId, i % 100 == 0, i % 3 == 0, i % 5 == 0, i % 7 == 0));
         }
 
         modelBuilder.Entity<User>().HasData(users);
@@ -40,8 +38,8 @@ public class DataContext : DbContext
         modelBuilder.Entity<User>()
             
             .HasOne(u => u.Role)
-            .WithOne(r => r.User)
-            .HasForeignKey<Role>(r => r.Id)
+            .WithOne(r => r.User)  
+            .HasForeignKey<Role>(r => r.UserId) 
             .OnDelete(DeleteBehavior.Cascade);
     }
     
