@@ -26,6 +26,5 @@ public class Role
     public UserRoleRequest UserWantToBe{ get; set; } = UserRoleRequest.Student;
     
     public Guid UserId { get; set; }  
-    [ForeignKey("UserId")]
     public User User { get; set; }
 }

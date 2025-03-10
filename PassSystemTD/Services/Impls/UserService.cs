@@ -20,7 +20,7 @@ public class UserService : IUserService
         _db = db;
     }
 
-    public async Task<IEnumerable<UserProfileModel>> GetUsers(UserRoleRequest? role, string? search, int page, int pageSize)
+    public async Task<IEnumerable<UserProfileModel>> GetUsers(UserRoleRequest? role, string? search, string? groupNumber, int page, int pageSize)
     //Если роль не указана, а то есть равна null, то отправляем всех пользователей
     {
         if (page <= 0 || pageSize <= 0)
@@ -44,6 +44,11 @@ public class UserService : IUserService
             {
                 query = query.Where(u => u.Role.IsDean == true);
             }
+        }
+        
+        if (!string.IsNullOrWhiteSpace(groupNumber))
+        {
+            query = query.Where(u => u.GroupNumber == groupNumber);
         }
         
         if (!string.IsNullOrWhiteSpace(search))

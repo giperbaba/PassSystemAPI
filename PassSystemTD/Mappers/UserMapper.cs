@@ -17,6 +17,7 @@ public abstract class UserMapper
             BirthDate = user.BirthDate,
             Email = user.Email,
             RoleEnum = MapEntityToRoleModel(user.Role),
+            GroupNumber = user.GroupNumber,
             UserWantToBe = userWantToBe
         };
     }
@@ -43,6 +44,7 @@ public abstract class UserMapper
             Name = userRequest.Name,
             Gender = userRequest.Gender,
             Password = hashedPassword,
+            GroupNumber = userRequest.GroupNumber
             };
     }
 

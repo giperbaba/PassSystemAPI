@@ -23,4 +23,8 @@ public class UserProfileModel
     public IEnumerable<UserRole>? RoleEnum { get; set; }
     
     public UserRoleRequest UserWantToBe { get; set; }
+    
+    [StringLength(6, ErrorMessage = ErrorMessages.GroupLengthError)]
+    [RegularExpression(RegexConstants.GroupRegex, ErrorMessage = ErrorMessages.GroupNotValid)]
+    public string? GroupNumber { get; set; }
 }

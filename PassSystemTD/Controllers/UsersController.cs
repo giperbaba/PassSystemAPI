@@ -20,12 +20,13 @@ public class UsersController: BaseController
     [HttpGet("users")]
     public async Task<IActionResult> GetUsers(UserRoleRequest? role,
         string? search = null,
+        string? groupNumber = null,
         int page = 1,
         int pageSize = 10)
     {
         await EnsureAdminOrDeanRights(GetUserData(ClaimTypes.Sid));
 
-        var users = await _userService.GetUsers(role, search, page, pageSize);
+        var users = await _userService.GetUsers(role, search, groupNumber, page, pageSize);
         return Ok(users);
     }
     
