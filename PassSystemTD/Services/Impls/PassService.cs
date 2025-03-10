@@ -1,11 +1,5 @@
-﻿using System.Net;
-using System.Net.Mime;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Text.Json;
-using CloudinaryDotNet;
+﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using PassSystemTD.Constants;
@@ -19,7 +13,6 @@ using PassSystemTD.Models.Response;
 using PassSystemTD.Services.Interfaces;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using Size = CloudinaryDotNet.Actions.Size;
 
 namespace PassSystemTD.Services.Impls;
 
@@ -83,6 +76,10 @@ public class PassService : IPassService
         var user = await _accountService.GetUserById(userId);
         if (user == null) throw new NotFoundException(ErrorMessages.NotFoundUserError);
 
+        if (passCreateModel.StartTime >= passCreateModel.EndTime)
+        {
+            throw new BadRequestException(ErrorMessages.StartDateError);
+        }
         var pass = PassMapper.MapPassCreateModelToEntity(passCreateModel, user);
         
         foreach (var file in passCreateModel.Proofs)

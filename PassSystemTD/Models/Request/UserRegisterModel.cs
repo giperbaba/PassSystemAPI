@@ -22,8 +22,14 @@ public class UserRegisterModel
     public string Email { get; set; }
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
+    [StringLength(1000, MinimumLength = 6, ErrorMessage = ErrorMessages.PasswordLengthError)]
+    [RegularExpression(RegexConstants.PasswordRegex, ErrorMessage = ErrorMessages.PasswordNotValid)]
     public string Password { get; set; }
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public UserRoleRequest Role { get; set; }
+    
+    [StringLength(6, ErrorMessage = ErrorMessages.GroupLengthError)]
+    [RegularExpression(RegexConstants.GroupRegex, ErrorMessage = ErrorMessages.GroupNotValid)]
+    public string? GroupNumber { get; set; }
 }

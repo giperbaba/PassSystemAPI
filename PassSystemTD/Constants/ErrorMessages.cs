@@ -18,6 +18,11 @@ public class ErrorMessages
     public const string PasswordInvalidError = "Invalid password";
     
     public const string InvalidBirthdateError = "User must be over 16 years old";
+    
+    public const string GroupLengthError = "Length of group's number must be 6";
+    public const string GroupNotValid = "Group number doesn't exist";
+    public const string GroupNumberRequired = "Group number is required for students";
+    public const string GroupNumberError = "Only students have group number";
 
     
     //Token 
@@ -40,6 +45,7 @@ public class ErrorMessages
     public const string PassNotInQueueError = "This pass is not in queue. Status cannot be changed";
     public const string PassAnotherUserError  = "You can't change pass another user";
     public const string PassIsNotAccepted = "This pass has not yet been accepted";
+    public const string StartDateError = "Start time of the pass can not be grater than End time ";
     
     //Conflict errors
     public const string ConflictEmailError = "Email is already registered";

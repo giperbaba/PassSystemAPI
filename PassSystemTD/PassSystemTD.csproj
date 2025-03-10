@@ -12,6 +12,7 @@
         <PackageReference Include="CloudinaryDotNet" Version="1.27.4" />
         <PackageReference Include="dotenv.net" Version="3.2.1" />
         <PackageReference Include="EPPlus" Version="8.0.0-beta" />
+        <PackageReference Include="ExcelPackage" Version="1.0.0" />
         <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />

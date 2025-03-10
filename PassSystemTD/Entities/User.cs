@@ -28,8 +28,9 @@ public class User
     public string Password { get; set; }
     
     public Guid RoleId { get; set; }
-    [ForeignKey("RoleId")]
     public Role Role { get; set; }
 
     public ICollection<Pass> Passes { get; set; } = new List<Pass>();
+    
+    public string? GroupNumber { get; set; }
 }

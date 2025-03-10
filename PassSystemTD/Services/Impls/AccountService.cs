@@ -46,7 +46,14 @@ public class AccountService : IAccountService
         {
             throw new ConflictException(Constants.ErrorMessages.ConflictEmailError);
         }
-        
+        if (userRegisterModel.Role == UserRoleRequest.Student && string.IsNullOrEmpty(userRegisterModel.GroupNumber))
+        {
+            throw new BadRequestException(ErrorMessages.GroupNumberRequired);
+        }
+        if ((userRegisterModel.Role == UserRoleRequest.Teacher || userRegisterModel.Role == UserRoleRequest.Dean) && !string.IsNullOrEmpty(userRegisterModel.GroupNumber))
+        {
+            throw new BadRequestException(ErrorMessages.GroupNumberError);
+        }
         CheckIsAgeCorrect(userRegisterModel.BirthDate);
         
         var user = UserMapper.MapUserFromRegisterModelToEntity(userRegisterModel);
