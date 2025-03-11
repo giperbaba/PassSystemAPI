@@ -20,7 +20,7 @@ public class UserService : IUserService
         _db = db;
     }
 
-    public async Task<IEnumerable<UserProfileModel>> GetUsers(UserRoleRequest? role, string? search, string? groupNumber, int page, int pageSize)
+    public async Task<UserPagedListModel> GetUsers(UserRoleRequest? role, string? search, string? groupNumber, int page, int pageSize)
     //Если роль не указана, а то есть равна null, то отправляем всех пользователей
     {
         if (page <= 0 || pageSize <= 0)
@@ -57,11 +57,23 @@ public class UserService : IUserService
             query = query.Where(u => u.Name.ToLower().Contains(lowerSearch) || u.Email.ToLower().Contains(lowerSearch));
         }
         
-        query = query.Skip((page - 1) * pageSize).Take(pageSize);
-        
-        return await query
-            .Select(user => UserMapper.MapEntityToUserProfileModel(user, user.Role.UserWantToBe))
+        var totalItems = await query.CountAsync();
+        var paginatedData = await query
+            .OrderBy(u => u.Name) 
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
+    
+        return new UserPagedListModel
+        {
+            Users = paginatedData.Select(user => UserMapper.MapEntityToUserProfileModel(user, user.Role.UserWantToBe)),
+            PageInfoModel = new PageInfoModel
+            {
+                Size = pageSize,
+                Count = totalItems,
+                Current = page
+            }
+        };
     }
 
     public async Task<UserProfileModel> GiveRole(Guid userId, UserRoleRequest? role = null, string userIdWhoDoIt = "")
