@@ -64,10 +64,10 @@ public class PassController: BaseController
     
     [Authorize]
     [HttpGet("pass/export")]
-    public async Task<IActionResult> ExportPasses()
+    public async Task<IActionResult> ExportPasses(DateTime? startDate, DateTime? endDate)
     {
         await EnsureAdminOrDeanRights(GetUserData(ClaimTypes.Sid));
-        var memoryStream = await _passService.ExportPasses();
+        var memoryStream = await _passService.ExportPasses(startDate, endDate);
             
         return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
             $"passes_export_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx");
