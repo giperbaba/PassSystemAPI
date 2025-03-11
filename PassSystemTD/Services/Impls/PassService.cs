@@ -271,9 +271,9 @@ public class PassService : IPassService
         return pass;
     }
     
-    public async Task<MemoryStream> ExportPasses()
+    public async Task<MemoryStream> ExportPasses(DateTime? startDate, DateTime? endDate)
     {
-        var passes = await GetAllPasses();
+        var passes = await GetFilteredPasses(startDate, endDate);
 
         var memoryStream = new MemoryStream();
 
@@ -291,13 +291,24 @@ public class PassService : IPassService
         return memoryStream;
     }
     
-    private async Task<IEnumerable<PassDetailsModel>> GetAllPasses()
+    private async Task<IEnumerable<PassDetailsModel>> GetFilteredPasses(DateTime? startDate, DateTime? endDate)
     {
-        var passes = await _db.Passes
+        var query = _db.Passes
             .Include(p => p.Proofs)
             .Include(p => p.User)
-            .ToListAsync();
+            .AsQueryable();
 
+        if (startDate.HasValue)
+        {
+            query = query.Where(p => p.StartTime >= startDate.Value);
+        }
+        
+        if (endDate.HasValue)
+        {
+            query = query.Where(p => p.EndTime <= endDate.Value);
+        }
+
+        var passes = await query.ToListAsync();
         return passes.Select(p => PassMapper.MapEntityToPassDetailsModel(p));
     }
 
