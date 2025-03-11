@@ -1,4 +1,5 @@
-﻿using CloudinaryDotNet;
+﻿using System.Collections.Immutable;
+using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -102,7 +103,7 @@ public class PassService : IPassService
         return passes;
     }
 
-    public async Task<IEnumerable<PassPreviewModel>> GetPasses(string userId, PassStatus? status, string? search,
+    public async Task<PassPagedListModel> GetPasses(string userId, PassStatus? status, string? search,
         DateTime? startDate, 
         DateTime? endDate,
         int page,
@@ -153,10 +154,23 @@ public class PassService : IPassService
             query = query.Where(p => p.EndTime <= endDate.Value);
         }
 
-        query = query.Skip((page - 1) * pageSize).Take(pageSize);
-        return await query
-            .Select(pass => PassMapper.MapEntityToPassPreviewModel(pass))
+        var totalItems = await query.CountAsync();
+        var paginatedData = await query
+            .OrderByDescending(p => p.StartTime)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
+    
+        return new PassPagedListModel
+        {
+            Passes = paginatedData.Select(pass => PassMapper.MapEntityToPassPreviewModel(pass)),
+            PageInfoModel = new PageInfoModel
+            {
+                Size = pageSize,
+                Count = totalItems,
+                Current = page
+            }
+        };
     }
 
     public async Task<PassDetailsModel> GetPassDetailedInfo(Guid passId)
