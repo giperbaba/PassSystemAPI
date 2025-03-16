@@ -76,14 +76,14 @@ public class UserService : IUserService
         };
     }
 
-    public async Task<UserProfileModel> GiveRole(Guid userId, UserRoleRequest? role = null, string userIdWhoDoIt = "")
+    public async Task<UserProfileModel> GiveRole(Guid userId, UserRoleRequest? role = null, string? groupNumber = "", string userIdWhoDoIt = "")
     {
         var user = GetUserById(userId.ToString());
 
         if (IsUserAdmin(userIdWhoDoIt))
         {
-            SetUserRole(user, role);
-            
+            SetUserRole(user, role, groupNumber);
+        
             if (user.Role.UserWantToBe == role)
             {
                 user.Role.UserWantToBe = UserRoleRequest.Student;
@@ -95,24 +95,25 @@ public class UserService : IUserService
             {
                 throw new AccessDeniedException(ErrorMessages.AccessDeniedAdminError);
             }
-            SetUserRole(user, role);
-            
+            SetUserRole(user, role, groupNumber);
+        
             if (user.Role.UserWantToBe == role)
             {
                 user.Role.UserWantToBe = UserRoleRequest.Student;
             }
         }
-        
+    
         await _db.SaveChangesAsync();
 
         return UserMapper.MapEntityToUserProfileModel(user,  user.Role.UserWantToBe);
     }
 
-    private void SetUserRole(User user, UserRoleRequest? role)
+    private void SetUserRole(User user, UserRoleRequest? role, string? groupNumber = "")
     {
         if (role == UserRoleRequest.Student)
         {
             user.Role.IsStudent = true;
+            user.GroupNumber = groupNumber;
         }
         else if (role == UserRoleRequest.Teacher)
         {

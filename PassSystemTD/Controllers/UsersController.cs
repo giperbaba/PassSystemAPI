@@ -32,10 +32,10 @@ public class UsersController: BaseController
     
     [Authorize]
     [HttpPost("users/role/{id}")]
-    public async Task<IActionResult> GiveRole(Guid id, UserRoleRequest? role)
+    public async Task<IActionResult> GiveRole(Guid id, UserRoleRequest? role, string? groupNumber)
     {
         await EnsureAdminOrDeanRights(GetUserData(ClaimTypes.Sid));
-        
-        return Ok(await _userService.GiveRole(id, role, GetUserData(ClaimTypes.Sid)));
+    
+        return Ok(await _userService.GiveRole(id, role, groupNumber, GetUserData(ClaimTypes.Sid)));
     }
 }
