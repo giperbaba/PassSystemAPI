@@ -106,6 +106,7 @@ public class PassService : IPassService
     public async Task<PassPagedListModel> GetPasses(string userId, PassStatus? status, string? search,
         DateTime? startDate, 
         DateTime? endDate,
+        string? groupNumber,
         int page,
         int pageSize)
     {
@@ -152,6 +153,11 @@ public class PassService : IPassService
         if (endDate.HasValue)
         {
             query = query.Where(p => p.EndTime <= endDate.Value);
+        }
+
+        if (groupNumber != null)
+        {
+            query = query.Where(p => p.User.GroupNumber == groupNumber);
         }
 
         var totalItems = await query.CountAsync();
@@ -271,9 +277,9 @@ public class PassService : IPassService
         return pass;
     }
     
-    public async Task<MemoryStream> ExportPasses(DateTime? startDate, DateTime? endDate)
+    public async Task<MemoryStream> ExportPasses(DateTime? startDate, DateTime? endDate, string? groupNumber)
     {
-        var passes = await GetFilteredPasses(startDate, endDate);
+        var passes = await GetFilteredPasses(startDate, endDate, groupNumber);
 
         var memoryStream = new MemoryStream();
 
@@ -291,7 +297,7 @@ public class PassService : IPassService
         return memoryStream;
     }
     
-    private async Task<IEnumerable<PassDetailsModel>> GetFilteredPasses(DateTime? startDate, DateTime? endDate)
+    private async Task<IEnumerable<PassDetailsModel>> GetFilteredPasses(DateTime? startDate, DateTime? endDate, string? groupNumber)
     {
         var query = _db.Passes
             .Include(p => p.Proofs)
@@ -308,6 +314,11 @@ public class PassService : IPassService
             query = query.Where(p => p.EndTime <= endDate.Value);
         }
 
+        if (!string.IsNullOrEmpty(groupNumber))
+        {
+            query = query.Where(p => p.User.GroupNumber == groupNumber);
+        }
+
         var passes = await query.ToListAsync();
         return passes.Select(p => PassMapper.MapEntityToPassDetailsModel(p));
     }
@@ -315,12 +326,13 @@ public class PassService : IPassService
     private void AddPrimaryCells(ExcelWorksheet worksheet)
     {
         worksheet.Cells[1, 1].Value = "Имя пользователя";
-        worksheet.Cells[1, 2].Value = "Email пользователя";
-        worksheet.Cells[1, 3].Value = "Причина пропуска";
-        worksheet.Cells[1, 4].Value = "Начало";
-        worksheet.Cells[1, 5].Value = "Окончание";
-        worksheet.Cells[1, 6].Value = "Статус";
-        worksheet.Cells[1, 7].Value = "Документы";
+        worksheet.Cells[1, 2].Value = "Группа";
+        worksheet.Cells[1, 3].Value = "Email пользователя";
+        worksheet.Cells[1, 4].Value = "Причина пропуска";
+        worksheet.Cells[1, 5].Value = "Начало";
+        worksheet.Cells[1, 6].Value = "Окончание";
+        worksheet.Cells[1, 7].Value = "Статус";
+        worksheet.Cells[1, 8].Value = "Документы";
     }
 
     private void FillCells(ExcelWorksheet worksheet, IEnumerable<PassDetailsModel> passes)
@@ -329,13 +341,14 @@ public class PassService : IPassService
         foreach (var pass in passes)
         {
             worksheet.Cells[row, 1].Value = pass.UserName;
-            worksheet.Cells[row, 2].Value = pass.UserEmail;
-            worksheet.Cells[row, 3].Value = pass.Reason;
-            worksheet.Cells[row, 4].Value = pass.StartTime.ToString("yyyy-MM-dd HH:mm");
-            worksheet.Cells[row, 5].Value = pass.EndTime.ToString("yyyy-MM-dd HH:mm");
-            worksheet.Cells[row, 6].Value = pass.PassStatus.ToString();
-            worksheet.Cells[row, 7].Value = pass.Proofs.Select(p => p.FileName);
-            worksheet.Cells[row, 8].Value = pass.Proofs.Select(p => p.FileUrl);
+            worksheet.Cells[row, 2].Value = pass.GroupNumber;
+            worksheet.Cells[row, 3].Value = pass.UserEmail;
+            worksheet.Cells[row, 4].Value = pass.Reason;
+            worksheet.Cells[row, 5].Value = pass.StartTime.ToString("yyyy-MM-dd HH:mm");
+            worksheet.Cells[row, 6].Value = pass.EndTime.ToString("yyyy-MM-dd HH:mm");
+            worksheet.Cells[row, 7].Value = pass.PassStatus.ToString();
+            worksheet.Cells[row, 8].Value = pass.Proofs.Select(p => p.FileName);
+            worksheet.Cells[row, 9].Value = pass.Proofs.Select(p => p.FileUrl);
 
             row++;
         }

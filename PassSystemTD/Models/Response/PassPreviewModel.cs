@@ -20,4 +20,6 @@ public class PassPreviewModel
     
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public PassStatus PassStatus { get; set; }
+    
+    public string? groupNumber { get; set; }
 }

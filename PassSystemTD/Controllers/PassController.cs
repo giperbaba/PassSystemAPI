@@ -33,10 +33,11 @@ public class PassController: BaseController
         string? search,
         DateTime? startDate,
         DateTime? endDate,
+        string? groupNumber,
         int page = 1,
         int pageSize = 10)
     {
-        return Ok(await _passService.GetPasses(GetUserData(ClaimTypes.Sid), status, search, startDate, endDate, page, pageSize)); 
+        return Ok(await _passService.GetPasses(GetUserData(ClaimTypes.Sid), status, search, startDate, endDate, groupNumber, page, pageSize)); 
     }
     
     [Authorize]
@@ -64,10 +65,10 @@ public class PassController: BaseController
     
     [Authorize]
     [HttpGet("pass/export")]
-    public async Task<IActionResult> ExportPasses(DateTime? startDate, DateTime? endDate)
+    public async Task<IActionResult> ExportPasses(DateTime? startDate, DateTime? endDate, string? groupNumber)
     {
         await EnsureAdminOrDeanRights(GetUserData(ClaimTypes.Sid));
-        var memoryStream = await _passService.ExportPasses(startDate, endDate);
+        var memoryStream = await _passService.ExportPasses(startDate, endDate, groupNumber);
             
         return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
             $"passes_export_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx");

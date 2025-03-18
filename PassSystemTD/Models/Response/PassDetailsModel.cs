@@ -31,4 +31,6 @@ public class PassDetailsModel
     [Required(ErrorMessage = ErrorMessages.RequiredField)]
     public PassStatus PassStatus { get; set; }
     public IEnumerable<DocumentModel> Proofs { get; set; }
+    
+    public string? GroupNumber { get; set; }
 }
