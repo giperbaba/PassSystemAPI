@@ -103,6 +103,24 @@ services.AddSwaggerGen(options =>
         }
     });
 });
+services.AddCors(options =>
+{
+    options.AddPolicy("myPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(7162, listenOptions =>
+    {
+        listenOptions.UseHttps();
+    });
+    serverOptions.ListenAnyIP(5156);
+});
 
 var app = builder.Build();
 
@@ -111,10 +129,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("myPolicy");
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization(); 
