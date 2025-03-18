@@ -15,7 +15,8 @@ public abstract class PassMapper
             StartTime = pass.StartTime,
             EndTime = pass.EndTime,
             PassStatus = pass.PassStatus,
-            userName = pass.User.Name
+            userName = pass.User.Name,
+            groupNumber = pass.User.GroupNumber
         };
     }
     
@@ -44,6 +45,7 @@ public abstract class PassMapper
             StartTime = pass.StartTime,
             EndTime = pass.EndTime,
             PassStatus = pass.PassStatus,
+            GroupNumber = pass.User.GroupNumber,
             Proofs = pass.Proofs.Select(proof => new DocumentModel
             {
                 FileName = proof.FileName,
