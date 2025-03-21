@@ -54,12 +54,12 @@ public class AccountService : IAccountService
         {
             throw new BadRequestException(ErrorMessages.GroupNumberError);
         }
+        
         CheckIsAgeCorrect(userRegisterModel.BirthDate);
         
         var user = UserMapper.MapUserFromRegisterModelToEntity(userRegisterModel);
         
         await _db.Users.AddAsync(user);
-
         
         if (userRegisterModel.Role == UserRoleRequest.Student)
         {
@@ -67,15 +67,15 @@ public class AccountService : IAccountService
             await _db.Role.AddAsync(role);
             user.RoleId = role.Id;
         }
-        else if (userRegisterModel.Role == UserRoleRequest.Teacher)
+        else if (userRegisterModel.Role == UserRoleRequest.Teacher || userRegisterModel.Role == UserRoleRequest.Dean)
         {
             var role = new Role(user.Id, false, false, false, false);
             role.UserWantToBe = userRegisterModel.Role;
             await _db.Role.AddAsync(role);
             user.RoleId = role.Id;
         }
-        await _db.SaveChangesAsync();
         
+        await _db.SaveChangesAsync();
         var token = new TokenResponse { Token = _tokenService.GenerateToken(user) };
         
         return token;
