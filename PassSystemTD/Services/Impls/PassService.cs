@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using CloudinaryDotNet;
+﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -56,7 +55,7 @@ public class PassService : IPassService
             throw new BadRequestException(ErrorMessages.FailedLoadFileError);
         }
     }
-    
+
     private async Task<Stream> CompressImageAsync(IFormFile file)
     {
         using var image = await Image.LoadAsync(file.OpenReadStream());
@@ -67,7 +66,7 @@ public class PassService : IPassService
         }));
 
         var memoryStream = new MemoryStream();
-        await image.SaveAsJpegAsync(memoryStream); 
+        await image.SaveAsJpegAsync(memoryStream);
         memoryStream.Position = 0;
         return memoryStream;
     }
@@ -81,8 +80,9 @@ public class PassService : IPassService
         {
             throw new BadRequestException(ErrorMessages.StartDateError);
         }
+
         var pass = PassMapper.MapPassCreateModelToEntity(passCreateModel, user);
-        
+
         foreach (var file in passCreateModel.Proofs)
         {
             var uploadResult = await UploadFileToCloudinary(file);
@@ -95,16 +95,17 @@ public class PassService : IPassService
             };
             pass.Proofs.Add(proof);
         }
+
         _db.Passes.Add(pass);
         await _db.SaveChangesAsync();
 
-        var passes = _db.Passes.Include(p => p.User).Where(p => p.UserId == user.Id).
-            Select(p => PassMapper.MapEntityToPassPreviewModel(p)).ToList();
+        var passes = _db.Passes.Include(p => p.User).Where(p => p.UserId == user.Id)
+            .Select(p => PassMapper.MapEntityToPassPreviewModel(p)).ToList();
         return passes;
     }
 
     public async Task<PassPagedListModel> GetPasses(string userId, PassStatus? status, string? search,
-        DateTime? startDate, 
+        DateTime? startDate,
         DateTime? endDate,
         string? groupNumber,
         int page,
@@ -116,9 +117,15 @@ public class PassService : IPassService
         }
 
         var user = await _accountService.GetUserById(userId);
-        
+        Console.WriteLine(user.Role.ToString());
+
+        if (!user.Role.IsStudent && !user.Role.IsAdmin && !user.Role.IsDean && !user.Role.IsTeacher)
+        {
+            throw new BadRequestException("User role is not assigned.");
+        }
+
         var query = _db.Passes.Include(p => p.User).AsQueryable();
-        
+
         if (!(user.Role.IsAdmin || user.Role.IsDean))
         {
             if (user.Role.IsStudent && user.Role.IsTeacher)
@@ -139,12 +146,13 @@ public class PassService : IPassService
         {
             query = query.Where(p => p.PassStatus == status);
         }
+
         if (!string.IsNullOrWhiteSpace(search))
         {
             var lowerSearch = search.ToLower();
             query = query.Where(p => p.User.Name.ToLower().Contains(lowerSearch));
         }
-        
+
         if (startDate.HasValue)
         {
             query = query.Where(p => p.StartTime >= startDate.Value);
@@ -166,10 +174,10 @@ public class PassService : IPassService
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
-    
+
         return new PassPagedListModel
         {
-            Passes = paginatedData.Select(pass => PassMapper.MapEntityToPassPreviewModel(pass)),
+            Passes = paginatedData.Select(PassMapper.MapEntityToPassPreviewModel),
             PageInfoModel = new PageInfoModel
             {
                 Size = pageSize,
@@ -181,8 +189,8 @@ public class PassService : IPassService
 
     public async Task<PassDetailsModel> GetPassDetailedInfo(Guid passId)
     {
-        var pass = await _db.Passes.Include(p => p.Proofs).Include(p => p.User).
-            FirstOrDefaultAsync(p => p.Id == passId);
+        var pass = await _db.Passes.Include(p => p.Proofs).Include(p => p.User)
+            .FirstOrDefaultAsync(p => p.Id == passId);
         if (pass == null)
         {
             throw new NotFoundException(ErrorMessages.NotFoundPassError);
@@ -190,22 +198,22 @@ public class PassService : IPassService
 
         return PassMapper.MapEntityToPassDetailsModel(pass);
     }
-    
-    
+
+
     public async Task<PassDetailsModel> EditPassStatus(Guid passId, PassEditStatusModel statusModel)
     {
         var pass = await GetPassById(passId);
-        
+
         await CheckIsPassInQueue(pass);
-        
+
         pass.PassStatus = statusModel.Status;
-        
+
         _db.Passes.Update(pass);
         await _db.SaveChangesAsync();
-        
+
         return PassMapper.MapEntityToPassDetailsModel(pass);
     }
-    
+
     private async Task CheckIsPassInQueue(Pass pass)
     {
         var isPassInQueue = pass.PassStatus == PassStatus.InQueue;
@@ -216,7 +224,8 @@ public class PassService : IPassService
         }
     }
 
-    public async Task<IEnumerable<PassPreviewModel>> ExtendPass(Guid passId, PassExtendModel passExtendModel, string studentId)
+    public async Task<IEnumerable<PassPreviewModel>> ExtendPass(Guid passId, PassExtendModel passExtendModel,
+        string studentId)
     {
         var oldPass = await GetPassById(passId);
 
@@ -243,7 +252,7 @@ public class PassService : IPassService
             newProofs.Add(file);
         }
 
-        var newPassCreateModel = Mappers.PassMapper.MapPassExtendModelToCreateModel(passExtendModel.StartTime, 
+        var newPassCreateModel = Mappers.PassMapper.MapPassExtendModelToCreateModel(passExtendModel.StartTime,
             passExtendModel.EndTime, oldPass.Reason, newProofs);
 
         _db.Passes.Remove(oldPass);
@@ -261,7 +270,7 @@ public class PassService : IPassService
         var stream = await response.Content.ReadAsStreamAsync();
         return new FormFile(stream, 0, stream.Length, "file", Path.GetFileName(url));
     }
-    
+
     private async Task<Pass> GetPassById(Guid passId)
     {
         var pass = await _db.Passes
@@ -276,7 +285,7 @@ public class PassService : IPassService
 
         return pass;
     }
-    
+
     public async Task<MemoryStream> ExportPasses(DateTime? startDate, DateTime? endDate, string? groupNumber)
     {
         var passes = await GetFilteredPasses(startDate, endDate, groupNumber);
@@ -286,7 +295,7 @@ public class PassService : IPassService
         using (var package = new ExcelPackage(memoryStream))
         {
             var worksheet = package.Workbook.Worksheets.Add("Пропуски");
-            
+
             AddPrimaryCells(worksheet);
             FillCells(worksheet, passes);
 
@@ -296,8 +305,9 @@ public class PassService : IPassService
         memoryStream.Position = 0;
         return memoryStream;
     }
-    
-    private async Task<IEnumerable<PassDetailsModel>> GetFilteredPasses(DateTime? startDate, DateTime? endDate, string? groupNumber)
+
+    private async Task<IEnumerable<PassDetailsModel>> GetFilteredPasses(DateTime? startDate, DateTime? endDate,
+        string? groupNumber)
     {
         var query = _db.Passes
             .Include(p => p.Proofs)
@@ -308,7 +318,7 @@ public class PassService : IPassService
         {
             query = query.Where(p => p.StartTime >= startDate.Value);
         }
-        
+
         if (endDate.HasValue)
         {
             query = query.Where(p => p.EndTime <= endDate.Value);
@@ -352,7 +362,7 @@ public class PassService : IPassService
 
             row++;
         }
-        
+
         worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
     }
 }
