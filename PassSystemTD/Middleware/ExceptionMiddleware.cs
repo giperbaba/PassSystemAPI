@@ -12,14 +12,30 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         {
             await next(context);
         }
+        catch (BadRequestException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.BadRequest, ex.Message);
+        }
         catch (InvalidTokenException ex)
         {
             await HandleExceptionAsync(context, HttpStatusCode.Unauthorized, ex.Message);
         }
+        catch (AccessDeniedException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.Forbidden, ex.Message);
+        }
+        catch (NotFoundException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.NotFound, ex.Message);
+        }
+        catch (ConflictException ex)
+        {
+            await HandleExceptionAsync(context, HttpStatusCode.Conflict, ex.Message);
+        }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An unhandled exception occurred.");
-            await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, "An unexpected error occurred.");
+            //logger.LogError(ex, ex.Message);
+            await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, ex.Message);
         }
     }
 
